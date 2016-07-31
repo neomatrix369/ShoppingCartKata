@@ -6,19 +6,25 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static java.time.LocalDateTime.now;
 
+import static ShoppingCart.ProductCategory.BOOK;
+import static ShoppingCart.ProductCategory.DVD;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class ShoppingBasketShould {
 
+  private static final ProductID LORD_OF_THE_RINGS = new ProductID(10001);
+  private static final ProductID THE_HOBBIT = new ProductID(10002);
+  private static final ProductID GAME_OF_THRONES = new ProductID(20001);
+  private static final ProductID BREAKING_BAD = new ProductID(20110);
+
   private UserID userOne;
-  private ProductRepository products;
   private ShoppingBasketService shoppingBasket;
 
   @Before
   public void initialise() {
     userOne = new UserID("UserOne");
-    products = new ProductRepository();
     shoppingBasket = new ShoppingBasketService();
   }
 
@@ -27,12 +33,12 @@ public class ShoppingBasketShould {
   should_contain_items_in_a_basket_for_a_user_after_items_are_added_to_it() {
     Basket expectedBasket = new Basket();
     expectedBasket.setCreationDate(now());
-    expectedBasket.addItem(new Item(products.forId(10001), 2));
-    expectedBasket.addItem(new Item(products.forId(20110), 5));
+    expectedBasket.addItem(new Item(LORD_OF_THE_RINGS, 2));
+    expectedBasket.addItem(new Item(new ProductID(20110), 5));
     expectedBasket.setTotal(45.00);
 
-    shoppingBasket.addItem(userOne, products.forId(10001), 2);
-    shoppingBasket.addItem(userOne, products.forId(20110), 5);
+    shoppingBasket.addItem(userOne, LORD_OF_THE_RINGS, 2);
+    shoppingBasket.addItem(userOne, new ProductID(20110), 5);
 
     assertThat(shoppingBasket.basketFor(userOne), is(expectedBasket));
   }
@@ -40,7 +46,15 @@ public class ShoppingBasketShould {
   @Test public void
   create_a_basket_only_when_the_first_item_is_added_by_the_user() {
     assertThat(shoppingBasket.basketFor(userOne), is(nullValue()));
-    shoppingBasket.addItem(userOne, products.forId(10001), 3);
+    shoppingBasket.addItem(userOne, LORD_OF_THE_RINGS, 3);
     assertThat(shoppingBasket.basketFor(userOne), is(notNullValue()));
+  }
+  
+  @Test public void
+  have_an_in_memory_products_repository() {
+    assertThat(ProductRepository.forId(LORD_OF_THE_RINGS), is(new Product(LORD_OF_THE_RINGS, BOOK, "Lord of the Rings", 10.00)));
+    assertThat(ProductRepository.forId(THE_HOBBIT), is(new Product(THE_HOBBIT, BOOK, "The Hobbit", 5.00)));
+    assertThat(ProductRepository.forId(GAME_OF_THRONES), is(new Product(GAME_OF_THRONES, DVD, "Game of Thrones", 9.00)));
+    assertThat(ProductRepository.forId(BREAKING_BAD), is(new Product(BREAKING_BAD, DVD, "Breaking Bad", 7.00)));
   }
 }
