@@ -42,7 +42,7 @@ public class Product {
         .toHashCode();
   }
 
-  public double getPrice() {
-    return price;
+  public double getTotalPriceFor(int quantity) {
+    return quantity * price;
   }
 }

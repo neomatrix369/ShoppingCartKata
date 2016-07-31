@@ -16,4 +16,8 @@ public class Item {
   public int getQuantity() {
     return quantity;
   }
+
+  public double getTotalFor(Product product) {
+    return product.getTotalPriceFor(quantity);
+  }
 }

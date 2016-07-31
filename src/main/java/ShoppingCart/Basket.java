@@ -30,7 +30,7 @@ public class Basket {
 
   private void updateTotal(Item item) {
     Product product = ProductRepository.getProductForId(item.getProductId());
-    total = total + product.getPrice() * item.getQuantity();
+    total = total + item.getTotalFor(product);
   }
 
   public void setCreationDate(LocalDate date) {

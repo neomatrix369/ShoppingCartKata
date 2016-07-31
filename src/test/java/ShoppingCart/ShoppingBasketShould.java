@@ -29,8 +29,7 @@ public class ShoppingBasketShould {
   }
 
   @Test
-  public void
-  should_contain_items_in_a_basket_for_a_user_after_items_are_added_to_it() {
+  public void should_contain_items_in_a_basket_for_a_user_after_items_are_added_to_it() {
     Basket expectedBasket = new Basket();
     expectedBasket.setCreationDate(now());
     expectedBasket.addItem(new Item(THE_HOBBIT, 2));
@@ -43,15 +42,15 @@ public class ShoppingBasketShould {
     assertThat(shoppingBasket.basketFor(userOne), is(equalTo(expectedBasket)));
   }
 
-  @Test public void
-  create_a_basket_only_when_the_first_item_is_added_by_the_user() {
+  @Test
+  public void create_a_basket_only_when_the_first_item_is_added_by_the_user() {
     assertThat(shoppingBasket.basketFor(userOne), is(nullValue()));
     shoppingBasket.addItem(userOne, LORD_OF_THE_RINGS, 3);
     assertThat(shoppingBasket.basketFor(userOne), is(notNullValue()));
   }
 
-  @Test public void
-  have_an_in_memory_products_repository() {
+  @Test
+  public void have_an_in_memory_products_repository() {
     assertThat(ProductRepository.getProductForId(LORD_OF_THE_RINGS), is(new Product(LORD_OF_THE_RINGS, BOOK, "Lord of the Rings", 10.00)));
     assertThat(ProductRepository.getProductForId(THE_HOBBIT), is(new Product(THE_HOBBIT, BOOK, "The Hobbit", 5.00)));
     assertThat(ProductRepository.getProductForId(GAME_OF_THRONES), is(new Product(GAME_OF_THRONES, DVD, "Game of Thrones", 9.00)));
