@@ -20,26 +20,37 @@ public class ShoppingBasketShould {
   private static final ProductID BREAKING_BAD = new ProductID(20110);
 
   private UserID userOne;
+  private UserID userTwo;
   private ShoppingBasketService shoppingBasket;
 
   @Before
   public void initialise() {
     userOne = new UserID("UserOne");
+    userTwo = new UserID("UserTwo");
     shoppingBasket = new ShoppingBasketService();
   }
 
   @Test
-  public void should_contain_items_in_a_basket_for_a_user_after_items_are_added_to_it() {
-    Basket expectedBasket = new Basket();
-    expectedBasket.setCreationDate(now());
-    expectedBasket.addItem(new Item(THE_HOBBIT, 2));
-    expectedBasket.addItem(new Item(BREAKING_BAD, 5));
-    expectedBasket.setTotal(45.00);
+  public void contain_items_in_a_basket_for_a_user_after_items_are_added_to_it() {
+    Basket expectedBasket =
+        createBasketWithItems(45.00, new Item(THE_HOBBIT, 2), new Item(BREAKING_BAD, 5));
 
     shoppingBasket.addItem(userOne, THE_HOBBIT, 2);
     shoppingBasket.addItem(userOne, BREAKING_BAD, 5);
 
     assertThat(shoppingBasket.basketFor(userOne), is(equalTo(expectedBasket)));
+  }
+
+  @Test
+  public void have_separate_baskets_for_each_user() {
+    Basket expectedUserOneBasket = createBasketWithItems(21.00, new Item(BREAKING_BAD, 3));
+    Basket expectedUserTwoBasket = createBasketWithItems(20.00, new Item(THE_HOBBIT, 4));
+
+    shoppingBasket.addItem(userOne, BREAKING_BAD, 3);
+    shoppingBasket.addItem(userTwo, THE_HOBBIT, 4);
+
+    assertThat(shoppingBasket.basketFor(userOne), is(equalTo(expectedUserOneBasket)));
+    assertThat(shoppingBasket.basketFor(userTwo), is(equalTo(expectedUserTwoBasket)));
   }
 
   @Test
@@ -56,4 +67,14 @@ public class ShoppingBasketShould {
     assertThat(ProductRepository.getProductForId(GAME_OF_THRONES), is(new Product(GAME_OF_THRONES, DVD, "Game of Thrones", 9.00)));
     assertThat(ProductRepository.getProductForId(BREAKING_BAD), is(new Product(BREAKING_BAD, DVD, "Breaking Bad", 7.00)));
   }
-}
+
+  private Basket createBasketWithItems(double total, Item... items) {
+    Basket expectedBasket = new Basket();
+    expectedBasket.setCreationDate(now());
+    for (Item item: items) {
+      expectedBasket.addItem(item);
+    }
+    expectedBasket.setTotal(total);
+    return expectedBasket;
+  }
+ª}
