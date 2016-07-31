@@ -1,12 +1,12 @@
 package ShoppingCart;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Basket {
   private LocalDateTime creationDate;
-  private List<Item> items = new ArrayList<>();
+  private Map<ProductID, Integer> items = new HashMap<>();
   private double total = 0.0;
 
   public void setTotal(double total) {
@@ -14,7 +14,6 @@ public class Basket {
   }
 
   public void addItem(Item item) {
-    items.add(item);
   }
 
   public void setCreationDate(LocalDateTime date) {

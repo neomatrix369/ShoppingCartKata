@@ -1,10 +1,13 @@
 package ShoppingCart;
 
 public class ShoppingBasketService {
-  public void addItem(UserID userId, ProductID productId, int quantity) {}
+  private Baskets baskets = new Baskets();
 
-  public Basket basketFor(UserID userID) {
-    return null;
+  public void addItem(UserID userId, ProductID productId, int quantity) {
+    baskets.addItemFor(userId, productId, quantity);
   }
 
+  public Basket basketFor(UserID userID) {
+    return baskets.getBasketFor(userID);
+  }
 }
