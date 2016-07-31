@@ -3,6 +3,8 @@ package ShoppingCart;
 import static java.lang.String.*;
 import static java.time.LocalDate.now;
 
+import static ShoppingCart.ProductRepository.*;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,18 +21,18 @@ public class Basket {
     this.total = total;
   }
 
-  public void addItem(Item item) {
+  public void addItem(BasketItem basketItem) {
     if (items.size() == 0) {
       creationDate = now();
     }
-    items.put(item.getProductId(), item.getQuantity());
 
-    updateTotal(item);
+    items.put(basketItem.getProductId(), basketItem.getQuantity());
+
+    updateBasketTotal(basketItem);
   }
 
-  private void updateTotal(Item item) {
-    Product product = ProductRepository.getProductForId(item.getProductId());
-    total = total + item.getTotalFor(product);
+  private void updateBasketTotal(BasketItem basketItem) {
+    total += basketItem.getTotalFor(getProductForId(basketItem.getProductId()));
   }
 
   public void setCreationDate(LocalDate date) {

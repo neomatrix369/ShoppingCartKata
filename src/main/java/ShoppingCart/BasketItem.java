@@ -1,10 +1,10 @@
 package ShoppingCart;
 
-public class Item {
+public class BasketItem {
   private final ProductID productId;
   private final int quantity;
 
-  public Item(ProductID productId, int quantity) {
+  public BasketItem(ProductID productId, int quantity) {
     this.productId = productId;
     this.quantity = quantity;
   }
