@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static java.time.LocalDate.now;
+import static ShoppingCart.Amount.£;
 import static ShoppingCart.ProductCategory.BOOK;
 import static ShoppingCart.ProductCategory.DVD;
 import static ShoppingCart.ProductRepository.getProductForId;
@@ -34,7 +35,7 @@ public class ShoppingBasketShould {
   @Test
   public void contain_items_in_a_basket_for_a_user_after_items_are_added_to_it() {
     Basket expectedBasket =
-        createBasketWithItems(45.00, new BasketItem(THE_HOBBIT, 2), new BasketItem(BREAKING_BAD, 5));
+        createBasketWithItems(£(45.00), new BasketItem(THE_HOBBIT, 2), new BasketItem(BREAKING_BAD, 5));
 
     shoppingBasket.addItem(userOne, THE_HOBBIT, 2);
     shoppingBasket.addItem(userOne, BREAKING_BAD, 5);
@@ -44,8 +45,8 @@ public class ShoppingBasketShould {
 
   @Test
   public void have_separate_baskets_for_each_user() {
-    Basket expectedUserOneBasket = createBasketWithItems(21.00, new BasketItem(BREAKING_BAD, 3));
-    Basket expectedUserTwoBasket = createBasketWithItems(20.00, new BasketItem(THE_HOBBIT, 4));
+    Basket expectedUserOneBasket = createBasketWithItems(£(21.00), new BasketItem(BREAKING_BAD, 3));
+    Basket expectedUserTwoBasket = createBasketWithItems(£(20.00), new BasketItem(THE_HOBBIT, 4));
 
     shoppingBasket.addItem(userOne, BREAKING_BAD, 3);
     shoppingBasket.addItem(userTwo, THE_HOBBIT, 4);
@@ -63,13 +64,13 @@ public class ShoppingBasketShould {
 
   @Test
   public void have_an_in_memory_products_repository() {
-    assertThat(getProductForId(LORD_OF_THE_RINGS), is(new Product(LORD_OF_THE_RINGS, BOOK, "Lord of the Rings", 10.00)));
-    assertThat(getProductForId(THE_HOBBIT), is(new Product(THE_HOBBIT, BOOK, "The Hobbit", 5.00)));
-    assertThat(getProductForId(GAME_OF_THRONES), is(new Product(GAME_OF_THRONES, DVD, "Game of Thrones", 9.00)));
-    assertThat(getProductForId(BREAKING_BAD), is(new Product(BREAKING_BAD, DVD, "Breaking Bad", 7.00)));
+    assertThat(getProductForId(LORD_OF_THE_RINGS), is(new Product(LORD_OF_THE_RINGS, BOOK, "Lord of the Rings", £(10.00))));
+    assertThat(getProductForId(THE_HOBBIT), is(new Product(THE_HOBBIT, BOOK, "The Hobbit", £( 5.00))));
+    assertThat(getProductForId(GAME_OF_THRONES), is(new Product(GAME_OF_THRONES, DVD, "Game of Thrones", £(9.00))));
+    assertThat(getProductForId(BREAKING_BAD), is(new Product(BREAKING_BAD, DVD, "Breaking Bad", £(7.00))));
   }
 
-  private Basket createBasketWithItems(double basketTotal, BasketItem... basketItems) {
+  private Basket createBasketWithItems(Amount basketTotal, BasketItem... basketItems) {
     Basket expectedBasket = new Basket();
     expectedBasket.setCreationDate(now());
     for (BasketItem basketItem : basketItems) {

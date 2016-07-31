@@ -1,5 +1,7 @@
 package ShoppingCart;
 
+import static ShoppingCart.Amount.£;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -7,9 +9,9 @@ public class Product {
   private final ProductID productID;
   private final ProductCategory category;
   private final String title;
-  private final double price;
+  private final Amount price;
 
-  public Product(ProductID productID, ProductCategory category, String title, double price) {
+  public Product(ProductID productID, ProductCategory category, String title, Amount price) {
     this.productID = productID;
     this.category = category;
     this.title = title;
@@ -42,7 +44,12 @@ public class Product {
         .toHashCode();
   }
 
-  public double getTotalPriceFor(int quantity) {
-    return quantity * price;
+  public Amount getTotalPriceFor(int quantity) {
+    return £(quantity * price.getValue());
+  }
+
+  @Override
+  public String toString() {
+    return String.format("Product{productID=%s, category=%s, title='%s', price=%s}", productID, category, title, price);
   }
 }

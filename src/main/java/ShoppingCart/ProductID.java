@@ -1,5 +1,7 @@
 package ShoppingCart;
 
+import static java.lang.String.*;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -28,5 +30,10 @@ public class ProductID {
     return new HashCodeBuilder(17, 37)
         .append(id)
         .toHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return format("ProductID{id=%d}", id);
   }
 }
