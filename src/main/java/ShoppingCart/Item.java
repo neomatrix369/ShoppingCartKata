@@ -8,4 +8,12 @@ public class Item {
     this.productId = productId;
     this.quantity = quantity;
   }
+
+  public ProductID getProductId() {
+      return productId;
+  }
+
+  public int getQuantity() {
+    return quantity;
+  }
 }

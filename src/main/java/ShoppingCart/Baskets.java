@@ -11,6 +11,16 @@ public class Baskets {
   }
 
   public void addItemFor(UserID userId, ProductID productId, int quantity) {
-    items.put(userId, new Basket());
+    Basket basket = getBasketOrCreateEmptyIfNotFoundFor(userId);
+    basket.addItem(new Item(productId, quantity));
+    items.put(userId, basket);
+  }
+
+  private Basket getBasketOrCreateEmptyIfNotFoundFor(UserID userId) {
+    Basket basket = getBasketFor(userId);
+    if (basket == null) {
+      basket = new Basket();
+    }
+    return basket;
   }
 }

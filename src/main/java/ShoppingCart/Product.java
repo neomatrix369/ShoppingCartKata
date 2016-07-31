@@ -41,4 +41,8 @@ public class Product {
         .append(price)
         .toHashCode();
   }
+
+  public double getPrice() {
+    return price;
+  }
 }

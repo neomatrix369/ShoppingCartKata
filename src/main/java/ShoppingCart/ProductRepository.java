@@ -20,7 +20,7 @@ public  class ProductRepository {
     {put(PRODUCT_ID_20110, new Product(PRODUCT_ID_20110, DVD, "Breaking Bad", 7.00));}
   };
 
-  public static Product forId(ProductID id) {
+  public static Product getProductForId(ProductID id) {
     return items.get(id);
   }
 }
