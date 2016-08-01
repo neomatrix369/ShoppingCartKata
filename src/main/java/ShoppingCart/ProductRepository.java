@@ -1,6 +1,6 @@
 package ShoppingCart;
 
-import static ShoppingCart.Amount.£;
+import static ShoppingCart.Money.£;
 import static ShoppingCart.ProductCategory.BOOK;
 import static ShoppingCart.ProductCategory.DVD;
 

@@ -6,7 +6,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static java.time.LocalDate.now;
-import static ShoppingCart.Amount.£;
+import static ShoppingCart.Money.£;
 import static ShoppingCart.ProductCategory.BOOK;
 import static ShoppingCart.ProductCategory.DVD;
 import static ShoppingCart.ProductRepository.getProductForId;
@@ -65,18 +65,18 @@ public class ShoppingBasketShould {
   @Test
   public void have_an_in_memory_products_repository() {
     assertThat(getProductForId(LORD_OF_THE_RINGS), is(new Product(LORD_OF_THE_RINGS, BOOK, "Lord of the Rings", £(10.00))));
-    assertThat(getProductForId(THE_HOBBIT), is(new Product(THE_HOBBIT, BOOK, "The Hobbit", £( 5.00))));
+    assertThat(getProductForId(THE_HOBBIT), is(new Product(THE_HOBBIT, BOOK, "The Hobbit", £(5.00))));
     assertThat(getProductForId(GAME_OF_THRONES), is(new Product(GAME_OF_THRONES, DVD, "Game of Thrones", £(9.00))));
     assertThat(getProductForId(BREAKING_BAD), is(new Product(BREAKING_BAD, DVD, "Breaking Bad", £(7.00))));
   }
 
-  private Basket createBasketWithItems(Amount basketTotal, BasketItem... basketItems) {
+  private Basket createBasketWithItems(Money basketTotal, BasketItem... basketItems) {
     Basket expectedBasket = new Basket();
     expectedBasket.setCreationDate(now());
     for (BasketItem basketItem : basketItems) {
       expectedBasket.addItem(basketItem);
     }
-    expectedBasket.setTotal(basketTotal);
+    expectedBasket.setTotalAmount(basketTotal);
     return expectedBasket;
   }
 }

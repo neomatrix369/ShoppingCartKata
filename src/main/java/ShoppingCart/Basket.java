@@ -3,7 +3,7 @@ package ShoppingCart;
 import static java.lang.String.*;
 import static java.time.LocalDate.now;
 
-import static ShoppingCart.Amount.£;
+import static ShoppingCart.Money.£;
 import static ShoppingCart.ProductRepository.*;
 
 import java.time.LocalDate;
@@ -16,10 +16,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Basket {
   private LocalDate creationDate;
   private Map<ProductID, Integer> items = new HashMap<>();
-  private Amount total = £(0.0);
+  private Money totalAmount = £(0.0);
 
-  public void setTotal(Amount total) {
-    this.total = total;
+  public void setTotalAmount(Money totalAmount) {
+    this.totalAmount = totalAmount;
   }
 
   public void addItem(BasketItem basketItem) {
@@ -33,7 +33,7 @@ public class Basket {
   }
 
   private void updateBasketTotal(BasketItem basketItem) {
-    total = total.plus(
+    totalAmount = totalAmount.plus(
         basketItem.getTotalFor(
             getProductForId(basketItem.getProductId())
         )
@@ -53,7 +53,7 @@ public class Basket {
     Basket basket = (Basket) o;
 
     return new EqualsBuilder()
-        .append(total, basket.total)
+        .append(totalAmount, basket.totalAmount)
         .append(creationDate, basket.creationDate)
         .append(items, basket.items)
         .isEquals();
@@ -64,12 +64,12 @@ public class Basket {
     return new HashCodeBuilder(17, 37)
         .append(creationDate)
         .append(items)
-        .append(total)
+        .append(totalAmount)
         .toHashCode();
   }
 
   @Override
   public String toString() {
-    return format("Basket{creationDate=%s, items=%s, total=%s}", creationDate, items, total);
+    return format("Basket{creationDate=%s, items=%s, totalAmount=%s}", creationDate, items, totalAmount);
   }
 }

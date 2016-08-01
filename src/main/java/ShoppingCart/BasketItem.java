@@ -17,7 +17,7 @@ public class BasketItem {
     return quantity;
   }
 
-  public Amount getTotalFor(Product product) {
+  public Money getTotalFor(Product product) {
     return product.getTotalPriceFor(quantity);
   }
 }
