@@ -27,8 +27,8 @@ public class ShoppingBasketShould {
 
   @Before
   public void initialise() {
-    userOne = new UserID("UserOne");
-    userTwo = new UserID("UserTwo");
+    userOne = new UserID();
+    userTwo = new UserID();
     shoppingBasket = new ShoppingBasketService();
   }
 
