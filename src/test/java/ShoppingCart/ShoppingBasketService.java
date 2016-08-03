@@ -15,7 +15,7 @@ public class ShoppingBasketService {
   }
 
   public Basket basketFor(UserID userId) {
-    return basketsRepository.get(userId);
+    return basketsRepository.getBasketFor(userId);
   }
 
   public void addItem(UserID userId, ProductID productId, int quantity) {
@@ -23,7 +23,7 @@ public class ShoppingBasketService {
     List<BasketItem> items = new ArrayList<>();
     items.addAll(getBasketItemsFrom(basket));
     items.add(new BasketItem(productId, quantity));
-    basketsRepository.put(userId, new Basket(items, clock.getCurrentDate()));
+    basketsRepository.addBasketFor(userId, new Basket(items, clock.getCurrentDate()));
   }
 
   private List<BasketItem> getBasketItemsFrom(Basket basket) {
