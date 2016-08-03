@@ -37,4 +37,8 @@ public class Basket {
         .append(date)
         .toHashCode();
   }
+
+  public List<BasketItem> getItems() {
+    return items;
+  }
 }
