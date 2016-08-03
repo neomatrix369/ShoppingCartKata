@@ -17,10 +17,12 @@ public class ShoppingBasketServiceShould {
   private static final ProductID DVD_THE_HOBBIT = new ProductID(10001);
   private static final ProductID DVD_BREAKING_BAD = new ProductID(20110);
 
-  private ShoppingBasketService shoppingBasketService;
-  private UserID userOne;
   private Clock clock;
   private BasketsRepository basketRepository;
+  private ShoppingBasketService shoppingBasketService;
+
+  private UserID userOne;
+  private UserID userTwo;
 
   @Before
   public void initialise() {
@@ -28,6 +30,7 @@ public class ShoppingBasketServiceShould {
     basketRepository = new BasketsRepository();
     shoppingBasketService = new ShoppingBasketService(clock, basketRepository);
     userOne = new UserID();
+    userTwo = new UserID();
   }
 
   @Test public void
@@ -35,11 +38,11 @@ public class ShoppingBasketServiceShould {
     List<BasketItem> items = new ArrayList<>();
     items.add(new BasketItem(DVD_THE_HOBBIT, 2));
     items.add(new BasketItem(DVD_BREAKING_BAD, 5));
+    Basket expectedBasket = new Basket(items, now());
 
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
 
-    Basket expectedBasket = new Basket(items, now());
     assertThat(shoppingBasketService.basketFor(userOne), is(expectedBasket));
   }
   
@@ -51,5 +54,21 @@ public class ShoppingBasketServiceShould {
 
     assertThat(emptyBasket, is(nullValue()));
     assertThat(nonEmptyBasket, is(notNullValue()));
+  }
+  
+  @Test public void
+  store_each_users_basket_separately() {
+    List<BasketItem> itemsUserOne = new ArrayList<>();
+    itemsUserOne.add(new BasketItem(DVD_THE_HOBBIT, 2));
+    Basket expectedBasketForUserOne = new Basket(itemsUserOne, now());
+    List<BasketItem> itemsUserTwo = new ArrayList<>();
+    itemsUserTwo.add(new BasketItem(DVD_BREAKING_BAD, 5));
+    Basket expectedBasketForUserTwo = new Basket(itemsUserTwo, now());
+
+    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    shoppingBasketService.addItem(userTwo, DVD_BREAKING_BAD, 5);
+
+    assertThat(shoppingBasketService.basketFor(userOne), is(expectedBasketForUserOne));
+    assertThat(shoppingBasketService.basketFor(userTwo), is(expectedBasketForUserTwo));
   }
 }
