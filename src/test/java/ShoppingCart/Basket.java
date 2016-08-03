@@ -37,9 +37,4 @@ public class Basket {
         .append(date)
         .toHashCode();
   }
-
-  @Override
-  public String toString() {
-    return String.format("Basket{items=%s, date=%s}", items, date);
-  }
 }
