@@ -20,11 +20,13 @@ public class ShoppingBasketServiceShould {
   private ShoppingBasketService shoppingBasketService;
   private UserID userOne;
   private Clock clock;
+  private BasketsRepository basketRepository;
 
   @Before
   public void initialise() {
     clock = new Clock();
-    shoppingBasketService = new ShoppingBasketService(clock);
+    basketRepository = new BasketsRepository();
+    shoppingBasketService = new ShoppingBasketService(clock, basketRepository);
     userOne = new UserID();
   }
 
