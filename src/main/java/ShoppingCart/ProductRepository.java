@@ -12,7 +12,7 @@ public class ProductRepository {
   {
     {
       put(PRODUCT_ID_100001,
-         new Product(PRODUCT_ID_100001, "Lord of the Rings", GBP(10.00)));
+         new Product(PRODUCT_ID_100001, Category.BOOK, "Lord of the Rings", GBP(10.00)));
     }
   };
 
