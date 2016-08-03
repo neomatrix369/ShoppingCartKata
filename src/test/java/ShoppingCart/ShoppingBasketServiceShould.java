@@ -1,6 +1,7 @@
 package ShoppingCart;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static java.time.LocalDate.now;
 
@@ -24,8 +25,8 @@ public class ShoppingBasketServiceShould {
     userOne = new UserID();
   }
 
-  @Test
-  public void contain_the_items_that_are_added_to_the_basket_when_it_is_checked_out() {
+  @Test public void
+  contain_the_items_that_are_added_to_the_basket_when_it_is_checked_out() {
     List<BasketItem> items = new ArrayList<>();
     items.add(new BasketItem(DVD_THE_HOBBIT, 2));
     items.add(new BasketItem(DVD_BREAKING_BAD, 5));
@@ -33,4 +34,9 @@ public class ShoppingBasketServiceShould {
     Basket expectedBasket = new Basket(items, now());
     assertThat(shoppingBasketService.basketFor(userOne), is(expectedBasket));
   }
+  
+  @Test public void
+  create_a_basket_when_the_first_product_is_added_to_it() {
+    assertThat(shoppingBasketService.basketFor(userOne), is(nullValue()));
+  } 
 }
