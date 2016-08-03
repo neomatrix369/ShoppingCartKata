@@ -60,12 +60,14 @@ public class ShoppingBasketServiceShould {
   store_each_users_basket_separately() {
     List<BasketItem> itemsUserOne = new ArrayList<>();
     itemsUserOne.add(new BasketItem(DVD_THE_HOBBIT, 2));
+    itemsUserOne.add(new BasketItem(DVD_BREAKING_BAD, 5));
     Basket expectedBasketForUserOne = new Basket(itemsUserOne, now());
     List<BasketItem> itemsUserTwo = new ArrayList<>();
     itemsUserTwo.add(new BasketItem(DVD_BREAKING_BAD, 5));
     Basket expectedBasketForUserTwo = new Basket(itemsUserTwo, now());
 
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
     shoppingBasketService.addItem(userTwo, DVD_BREAKING_BAD, 5);
 
     assertThat(shoppingBasketService.basketFor(userOne), is(expectedBasketForUserOne));
