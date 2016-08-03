@@ -43,8 +43,11 @@ public class ShoppingBasketServiceShould {
   
   @Test public void
   create_a_basket_when_the_first_product_is_added_to_it() {
-    assertThat(shoppingBasketService.basketFor(userOne), is(nullValue()));
+    final Basket emptyBasket = shoppingBasketService.basketFor(userOne);
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
-    assertThat(shoppingBasketService.basketFor(userOne), is(notNullValue()));
+    final Basket nonEmptyBasket = shoppingBasketService.basketFor(userOne);
+
+    assertThat(emptyBasket, is(nullValue()));
+    assertThat(nonEmptyBasket, is(notNullValue()));
   }
 }
