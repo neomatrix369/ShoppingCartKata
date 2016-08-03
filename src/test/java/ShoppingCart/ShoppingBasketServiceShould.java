@@ -31,6 +31,9 @@ public class ShoppingBasketServiceShould {
     items.add(new BasketItem(DVD_THE_HOBBIT, 2));
     items.add(new BasketItem(DVD_BREAKING_BAD, 5));
 
+    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
+
     Basket expectedBasket = new Basket(items, now());
     assertThat(shoppingBasketService.basketFor(userOne), is(expectedBasket));
   }
