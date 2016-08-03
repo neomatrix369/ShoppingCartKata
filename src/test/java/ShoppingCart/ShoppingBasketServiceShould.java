@@ -1,6 +1,7 @@
 package ShoppingCart;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static java.time.LocalDate.now;
@@ -18,10 +19,12 @@ public class ShoppingBasketServiceShould {
 
   private ShoppingBasketService shoppingBasketService;
   private UserID userOne;
+  private Clock clock;
 
   @Before
   public void initialise() {
-    shoppingBasketService = new ShoppingBasketService();
+    clock = new Clock();
+    shoppingBasketService = new ShoppingBasketService(clock);
     userOne = new UserID();
   }
 
@@ -41,5 +44,7 @@ public class ShoppingBasketServiceShould {
   @Test public void
   create_a_basket_when_the_first_product_is_added_to_it() {
     assertThat(shoppingBasketService.basketFor(userOne), is(nullValue()));
-  } 
+    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    assertThat(shoppingBasketService.basketFor(userOne), is(notNullValue()));
+  }
 }
