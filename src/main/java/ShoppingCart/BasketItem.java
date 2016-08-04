@@ -35,11 +35,11 @@ public class BasketItem {
         .toHashCode();
   }
 
-  public int getQuantity() {
-    return quantity;
-  }
-
   public ProductID getProductId() {
     return productId;
+  }
+
+  public double getTotalFor(Money price) {
+    return quantity * price.getValue();
   }
 }

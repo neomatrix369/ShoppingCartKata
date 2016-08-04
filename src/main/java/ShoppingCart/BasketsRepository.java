@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BasketsRepository {
-  private Map<UserID, Basket> baskets = new HashMap<>();
+  private final Map<UserID, Basket> baskets = new HashMap<>();
 
   public Basket getBasketFor(UserID userId) {
     return baskets.get(userId);

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingBasketService {
-  private BasketsRepository basketsRepository;
-  private ProductRepository productRepository;
-  private Clock clock;
+  private final BasketsRepository basketsRepository;
+  private final ProductRepository productRepository;
+  private final Clock clock;
 
   public ShoppingBasketService(
       Clock clock,

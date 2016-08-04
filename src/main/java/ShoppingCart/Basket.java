@@ -9,7 +9,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Basket {
   private final List<BasketItem> items;
   private final LocalDate date;
-  private ProductRepository productRepository;
+  private final ProductRepository productRepository;
   private double total;
 
   public Basket(

@@ -5,13 +5,19 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Product {
   private final ProductID productID;
+  private final Category category;
   private final String title;
   private final Money price;
 
   public Product(ProductID productID, Category category, String title, Money price) {
     this.productID = productID;
+    this.category = category;
     this.title = title;
     this.price = price;
+  }
+
+  public Money getPrice() {
+    return price;
   }
 
   @Override
@@ -24,6 +30,7 @@ public class Product {
 
     return new EqualsBuilder()
         .append(productID, product.productID)
+        .append(category, product.category)
         .append(title, product.title)
         .append(price, product.price)
         .isEquals();
@@ -33,12 +40,9 @@ public class Product {
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
         .append(productID)
+        .append(category)
         .append(title)
         .append(price)
         .toHashCode();
-  }
-
-  public double getTotalFor(int quantity) {
-    return price.getValue() * quantity;
   }
 }

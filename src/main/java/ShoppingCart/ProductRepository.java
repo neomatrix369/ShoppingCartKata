@@ -13,7 +13,7 @@ public class ProductRepository {
   public static final ProductID PRODUCT_ID_200001 = new ProductID(200001);
   public static final ProductID PRODUCT_ID_200110 = new ProductID(200110);
 
-  private static Map<ProductID, Product> products = new HashMap<ProductID, Product>()
+  private static final Map<ProductID, Product> products = new HashMap<ProductID, Product>()
   {
     {
       put(PRODUCT_ID_100001,
@@ -33,6 +33,6 @@ public class ProductRepository {
 
   public double getTotalFor(BasketItem basketItem) {
     final Product product = getProductBy(basketItem.getProductId());
-    return product.getTotalFor(basketItem.getQuantity());
+    return basketItem.getTotalFor(product.getPrice());
   }
 }

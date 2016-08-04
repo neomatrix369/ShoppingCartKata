@@ -29,8 +29,15 @@ public class Money {
         .toHashCode();
   }
 
-  public Money(double value, Currency currency) {
+  @Override
+  public String toString() {
+    return "Money{" +
+        "value=" + value +
+        ", currency=" + currency +
+        '}';
+  }
 
+  public Money(double value, Currency currency) {
     this.value = value;
     this.currency = currency;
   }
