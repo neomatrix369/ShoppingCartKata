@@ -1,4 +1,3 @@
 package ShoppingCart;
 
-public class UserID {
-}
+public class UserID {}

@@ -12,6 +12,14 @@ public class BasketItem {
     this.quantity = quantity;
   }
 
+  public ProductID getProductId() {
+    return productId;
+  }
+
+  public Money getTotalFor(Product product) {
+    return product.getTotalFor(quantity);
+  }
+
   @Override
   public boolean equals(Object o) {
 
@@ -33,13 +41,5 @@ public class BasketItem {
         .append(productId)
         .append(quantity)
         .toHashCode();
-  }
-
-  public ProductID getProductId() {
-    return productId;
-  }
-
-  public Money getTotalFor(Product product) {
-    return product.getTotalFor(quantity);
   }
 }
