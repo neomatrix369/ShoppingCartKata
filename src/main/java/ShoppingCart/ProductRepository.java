@@ -30,4 +30,9 @@ public class ProductRepository {
   public Product getProductBy(ProductID productId) {
     return products.get(productId);
   }
+
+  public double getTotalFor(BasketItem basketItem) {
+    final Product product = getProductBy(basketItem.getProductId());
+    return product.getTotalFor(basketItem.getQuantity());
+  }
 }

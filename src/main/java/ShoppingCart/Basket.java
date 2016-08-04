@@ -24,10 +24,7 @@ public class Basket {
 
   private void updateTotal() {
     items.forEach(
-        basketItem -> {
-          Product product = productRepository.getProductBy(basketItem.getProductId());
-          total += product.getTotalFor(basketItem.getQuantity());
-        }
+        basketItem -> total += productRepository.getTotalFor(basketItem)
     );
   }
 
