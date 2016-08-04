@@ -40,6 +40,6 @@ public class BasketItem {
   }
 
   public double getTotalFor(Money price) {
-    return quantity * price.getValue();
+    return price.multiplyBy(quantity);
   }
 }

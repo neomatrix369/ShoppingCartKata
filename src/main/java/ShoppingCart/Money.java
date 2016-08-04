@@ -29,14 +29,6 @@ public class Money {
         .toHashCode();
   }
 
-  @Override
-  public String toString() {
-    return "Money{" +
-        "value=" + value +
-        ", currency=" + currency +
-        '}';
-  }
-
   public Money(double value, Currency currency) {
     this.value = value;
     this.currency = currency;
@@ -46,7 +38,7 @@ public class Money {
     return new Money(value, Currency.GBP);
   }
 
-  public double getValue() {
-    return value;
+  public double multiplyBy(int anotherValue) {
+    return value * anotherValue;
   }
 }
