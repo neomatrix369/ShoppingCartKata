@@ -1,5 +1,7 @@
 package ShoppingCart;
 
+import static ShoppingCart.Money.GBP;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public class Basket {
   private final List<BasketItem> items;
   private final LocalDate date;
   private final ProductRepository productRepository;
-  private double total;
+  private Money total = GBP(0.0);
 
   public Basket(
       List<BasketItem> items,
@@ -24,7 +26,7 @@ public class Basket {
 
   private void updateTotal() {
     items.forEach(
-        basketItem -> total += productRepository.getTotalFor(basketItem)
+        basketItem -> total = total.plus(productRepository.getTotalFor(basketItem))
     );
   }
 
