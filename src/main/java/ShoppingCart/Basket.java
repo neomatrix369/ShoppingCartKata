@@ -9,10 +9,20 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Basket {
   private final List<BasketItem> items;
   private final LocalDate date;
+  private double total;
 
   public Basket(List<BasketItem> items, LocalDate date) {
     this.items = items;
     this.date = date;
+    updateTotal();
+  }
+
+  private void updateTotal() {
+    items.forEach(
+        basketItem -> {
+           total = total + basketItem.getTotal();
+        }
+    );
   }
 
   @Override

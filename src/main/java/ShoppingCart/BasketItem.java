@@ -6,6 +6,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class BasketItem {
   private final ProductID productID;
   private final int quantity;
+  private double total;
 
   public BasketItem(ProductID productID, int quantity) {
     this.productID = productID;
@@ -33,5 +34,9 @@ public class BasketItem {
         .append(productID)
         .append(quantity)
         .toHashCode();
+  }
+
+  public double getTotal() {
+    return total;
   }
 }
