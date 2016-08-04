@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static java.time.LocalDate.now;
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class ShoppingBasketServiceShould {
   contain_the_items_that_are_added_to_the_basket_when_it_is_checked_out() {
     List<BasketItem> items =
         createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
-    Basket expectedBasket = new Basket(items, now(), productRepository);
+    Basket expectedBasket = new Basket(items, clock.getCurrentDate(), productRepository);
 
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
@@ -61,9 +60,11 @@ public class ShoppingBasketServiceShould {
   @Test public void
   store_each_users_basket_separately() {
     Basket expectedBasketForUserOne =
-        new Basket(createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5)), now(), productRepository);
+        new Basket(createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2),
+            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository);
     Basket expectedBasketForUserTwo =
-        new Basket(createBasketItems(new BasketItem(DVD_BREAKING_BAD, 5)), now(), productRepository);
+        new Basket(createBasketItems(
+            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository);
 
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);

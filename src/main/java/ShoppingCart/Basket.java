@@ -1,27 +1,40 @@
 package ShoppingCart;
 
+import static java.util.Collections.unmodifiableList;
 import static ShoppingCart.Money.GBP;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Basket {
-  private final List<BasketItem> items;
-  private final LocalDate date;
+  private List<BasketItem> items;
+  private final LocalDate creationDate;
   private final ProductRepository productRepository;
   private Money total = GBP(0.0);
 
   public Basket(
       List<BasketItem> items,
-      LocalDate date,
+      LocalDate creationDate,
       ProductRepository productRepository) {
     this.items = items;
-    this.date = date;
+    this.creationDate = creationDate;
     this.productRepository = productRepository;
     updateTotal();
+  }
+
+  public static List<BasketItem> emptyItems() {
+    return new ArrayList<>();
+  }
+
+  public Basket addItem(UserID userId, ProductID productId, int quantity) {
+    List<BasketItem> items = new ArrayList<>();
+    items.addAll(unmodifiableList(this.items));
+    items.add(new BasketItem(productId, quantity));
+    return new Basket(items, creationDate, productRepository);
   }
 
   private void updateTotal() {
@@ -44,7 +57,7 @@ public class Basket {
     return new EqualsBuilder()
         .append(total, basket.total)
         .append(items, basket.items)
-        .append(date, basket.date)
+        .append(creationDate, basket.creationDate)
         .isEquals();
   }
 
@@ -52,12 +65,8 @@ public class Basket {
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
         .append(items)
-        .append(date)
+        .append(creationDate)
         .append(total)
         .toHashCode();
-  }
-
-  public List<BasketItem> getItems() {
-    return items;
   }
 }

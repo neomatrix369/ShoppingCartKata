@@ -1,10 +1,5 @@
 package ShoppingCart;
 
-import static java.util.Collections.unmodifiableList;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class ShoppingBasketService {
   private final BasketsRepository basketsRepository;
   private final ProductRepository productRepository;
@@ -24,26 +19,10 @@ public class ShoppingBasketService {
   }
 
   public void addItem(UserID userId, ProductID productId, int quantity) {
-    Basket basket = getFilledOrEmptyBasket(userId);
-    List<BasketItem> items = new ArrayList<>();
-    items.addAll(getBasketItemsFrom(basket));
-    items.add(new BasketItem(productId, quantity));
-    basketsRepository.addBasketFor(userId, new Basket(items, clock.getCurrentDate(), productRepository));
-  }
-
-  private List<BasketItem> getBasketItemsFrom(Basket basket) {
-    List<BasketItem> items = basket.getItems();
-    if (items == null) {
-      return new ArrayList<>();
-    }
-    return unmodifiableList(items);
-  }
-
-  private Basket getFilledOrEmptyBasket(UserID userId) {
     Basket basket = basketFor(userId);
     if (basket == null) {
-      basket = new Basket(new ArrayList<>(), clock.getCurrentDate(), productRepository);
+      basket = new Basket(Basket.emptyItems(), clock.getCurrentDate(), productRepository);
     }
-    return basket;
+    basketsRepository.addBasketFor(userId, basket.addItem(userId, productId, quantity));
   }
 }
