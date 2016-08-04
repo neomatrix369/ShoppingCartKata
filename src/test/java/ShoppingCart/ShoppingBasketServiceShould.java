@@ -15,8 +15,8 @@ import org.junit.Test;
 
 public class ShoppingBasketServiceShould {
 
-  private static final ProductID DVD_THE_HOBBIT = new ProductID(10001);
-  private static final ProductID DVD_BREAKING_BAD = new ProductID(20110);
+  private static final ProductID DVD_THE_HOBBIT = new ProductID(100001);
+  private static final ProductID DVD_BREAKING_BAD = new ProductID(200110);
 
   private Clock clock;
   private BasketsRepository basketRepository;
