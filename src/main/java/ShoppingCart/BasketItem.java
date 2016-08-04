@@ -1,7 +1,5 @@
 package ShoppingCart;
 
-import static ShoppingCart.Money.GBP;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -41,7 +39,7 @@ public class BasketItem {
     return productId;
   }
 
-  public Money getTotalFor(Money price) {
-    return GBP(price.multiplyBy(quantity));
+  public Money getTotalFor(Product product) {
+    return product.getTotalFor(quantity);
   }
 }

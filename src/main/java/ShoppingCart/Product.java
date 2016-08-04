@@ -16,8 +16,8 @@ public class Product {
     this.price = price;
   }
 
-  public Money getPrice() {
-    return price;
+  public Money getTotalFor(int quantity) {
+    return price.multiplyBy(quantity);
   }
 
   @Override
