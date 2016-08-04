@@ -9,25 +9,30 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Basket {
   private final List<BasketItem> items;
   private final LocalDate date;
+  private ProductRepository productRepository;
   private double total;
 
-  public Basket(List<BasketItem> items, LocalDate date) {
+  public Basket(
+      List<BasketItem> items,
+      LocalDate date,
+      ProductRepository productRepository) {
     this.items = items;
     this.date = date;
+    this.productRepository = productRepository;
     updateTotal();
   }
 
   private void updateTotal() {
     items.forEach(
         basketItem -> {
-           total = total + basketItem.getTotal();
+          Product product = productRepository.getProductBy(basketItem.getProductId());
+          total += product.getTotalFor(basketItem.getQuantity());
         }
     );
   }
 
   @Override
   public boolean equals(Object o) {
-
     if (this == o) return true;
 
     if (o == null || getClass() != o.getClass()) return false;
@@ -35,6 +40,7 @@ public class Basket {
     Basket basket = (Basket) o;
 
     return new EqualsBuilder()
+        .append(total, basket.total)
         .append(items, basket.items)
         .append(date, basket.date)
         .isEquals();
@@ -45,6 +51,7 @@ public class Basket {
     return new HashCodeBuilder(17, 37)
         .append(items)
         .append(date)
+        .append(total)
         .toHashCode();
   }
 

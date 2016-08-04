@@ -4,12 +4,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class BasketItem {
-  private final ProductID productID;
+  private final ProductID productId;
   private final int quantity;
-  private double total;
 
-  public BasketItem(ProductID productID, int quantity) {
-    this.productID = productID;
+  public BasketItem(ProductID productId, int quantity) {
+    this.productId = productId;
     this.quantity = quantity;
   }
 
@@ -24,19 +23,23 @@ public class BasketItem {
 
     return new EqualsBuilder()
         .append(quantity, that.quantity)
-        .append(productID, that.productID)
+        .append(productId, that.productId)
         .isEquals();
   }
 
   @Override
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
-        .append(productID)
+        .append(productId)
         .append(quantity)
         .toHashCode();
   }
 
-  public double getTotal() {
-    return total;
+  public int getQuantity() {
+    return quantity;
+  }
+
+  public ProductID getProductId() {
+    return productId;
   }
 }

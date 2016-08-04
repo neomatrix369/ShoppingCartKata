@@ -24,12 +24,14 @@ public class ShoppingBasketServiceShould {
 
   private UserID userOne;
   private UserID userTwo;
+  private ProductRepository productRepository;
 
   @Before
   public void initialise() {
     clock = new Clock();
     basketRepository = new BasketsRepository();
-    shoppingBasketService = new ShoppingBasketService(clock, basketRepository);
+    productRepository = new ProductRepository();
+    shoppingBasketService = new ShoppingBasketService(clock, basketRepository, productRepository);
     userOne = new UserID();
     userTwo = new UserID();
   }
@@ -38,7 +40,7 @@ public class ShoppingBasketServiceShould {
   contain_the_items_that_are_added_to_the_basket_when_it_is_checked_out() {
     List<BasketItem> items =
         createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
-    Basket expectedBasket = new Basket(items, now());
+    Basket expectedBasket = new Basket(items, now(), productRepository);
 
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
@@ -59,9 +61,9 @@ public class ShoppingBasketServiceShould {
   @Test public void
   store_each_users_basket_separately() {
     Basket expectedBasketForUserOne =
-        new Basket(createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5)), now());
+        new Basket(createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5)), now(), productRepository);
     Basket expectedBasketForUserTwo =
-        new Basket(createBasketItems(new BasketItem(DVD_BREAKING_BAD, 5)), now());
+        new Basket(createBasketItems(new BasketItem(DVD_BREAKING_BAD, 5)), now(), productRepository);
 
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);

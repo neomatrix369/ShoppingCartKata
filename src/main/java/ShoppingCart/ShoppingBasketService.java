@@ -7,11 +7,16 @@ import java.util.List;
 
 public class ShoppingBasketService {
   private BasketsRepository basketsRepository;
+  private ProductRepository productRepository;
   private Clock clock;
 
-  public ShoppingBasketService(Clock clock, BasketsRepository basketsRepository) {
+  public ShoppingBasketService(
+      Clock clock,
+      BasketsRepository basketsRepository,
+      ProductRepository productRepository) {
     this.clock = clock;
     this.basketsRepository = basketsRepository;
+    this.productRepository = productRepository;
   }
 
   public Basket basketFor(UserID userId) {
@@ -23,7 +28,7 @@ public class ShoppingBasketService {
     List<BasketItem> items = new ArrayList<>();
     items.addAll(getBasketItemsFrom(basket));
     items.add(new BasketItem(productId, quantity));
-    basketsRepository.addBasketFor(userId, new Basket(items, clock.getCurrentDate()));
+    basketsRepository.addBasketFor(userId, new Basket(items, clock.getCurrentDate(), productRepository));
   }
 
   private List<BasketItem> getBasketItemsFrom(Basket basket) {
@@ -37,7 +42,7 @@ public class ShoppingBasketService {
   private Basket getFilledOrEmptyBasket(UserID userId) {
     Basket basket = basketFor(userId);
     if (basket == null) {
-      basket = new Basket(new ArrayList<>(), clock.getCurrentDate());
+      basket = new Basket(new ArrayList<>(), clock.getCurrentDate(), productRepository);
     }
     return basket;
   }

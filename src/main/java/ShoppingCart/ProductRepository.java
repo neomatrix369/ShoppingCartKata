@@ -27,7 +27,7 @@ public class ProductRepository {
     }
   };
 
-  public static Product getProductBy(ProductID productId) {
+  public Product getProductBy(ProductID productId) {
     return products.get(productId);
   }
 }

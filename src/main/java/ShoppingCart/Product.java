@@ -37,4 +37,8 @@ public class Product {
         .append(price)
         .toHashCode();
   }
+
+  public double getTotalFor(int quantity) {
+    return price.getValue() * quantity;
+  }
 }

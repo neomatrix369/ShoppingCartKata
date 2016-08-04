@@ -38,4 +38,8 @@ public class Money {
   public static Money GBP(double value) {
     return new Money(value, Currency.GBP);
   }
+
+  public double getValue() {
+    return value;
+  }
 }
