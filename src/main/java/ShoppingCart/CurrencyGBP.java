@@ -28,10 +28,10 @@ public class CurrencyGBP {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    CurrencyGBP currencyGBP = (CurrencyGBP) o;
+    CurrencyGBP that = (CurrencyGBP) o;
 
     return new EqualsBuilder()
-        .append(value, currencyGBP.value)
+        .append(value, that.value)
         .isEquals();
   }
 

@@ -67,6 +67,17 @@ public class ShoppingBasketServiceShould {
   } 
   
   @Test public void
+  contain_total_of_the_respective_items_when_added_to_the_basket_is_created_for_a_user() {
+    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository);
+    expectedBasket = expectedBasket.addItem(userOne, DVD_THE_HOBBIT, 3);
+
+    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 3);
+
+    Basket basket = shoppingBasketService.basketFor(userOne);
+    assertThat(basket.getTotal(), is(equalTo(expectedBasket.getTotal())));
+  } 
+  
+  @Test public void
   store_each_users_basket_separately() {
     Basket expectedBasketForUserOne =
         new Basket(createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2),

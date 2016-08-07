@@ -37,6 +37,10 @@ public class Basket {
     return creationDate;
   }
 
+  public CurrencyGBP getTotal() {
+    return total;
+  }
+
   private ArrayList<BasketItem> createEmptyBasket() {return new ArrayList<>();}
 
   public Basket addItem(UserID userId, ProductID productId, int quantity) {
