@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import static ShoppingCart.Category.*;
-import static ShoppingCart.Money.GBP;
+import static ShoppingCart.CurrencyGBP.GBP;
 import static ShoppingCart.ProductRepository.PRODUCT_ID_100001;
 import static ShoppingCart.ProductRepository.PRODUCT_ID_100002;
 import static ShoppingCart.ProductRepository.PRODUCT_ID_200001;

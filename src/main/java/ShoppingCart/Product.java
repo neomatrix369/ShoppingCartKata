@@ -7,16 +7,16 @@ public class Product {
   private final ProductID productID;
   private final Category category;
   private final String title;
-  private final Money price;
+  private final CurrencyGBP price;
 
-  public Product(ProductID productID, Category category, String title, Money price) {
+  public Product(ProductID productID, Category category, String title, CurrencyGBP price) {
     this.productID = productID;
     this.category = category;
     this.title = title;
     this.price = price;
   }
 
-  public Money getTotalFor(int quantity) {
+  public CurrencyGBP getTotalFor(int quantity) {
     return price.multiplyBy(quantity);
   }
 

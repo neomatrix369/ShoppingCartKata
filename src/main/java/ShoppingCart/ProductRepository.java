@@ -2,7 +2,7 @@ package ShoppingCart;
 
 import static ShoppingCart.Category.BOOK;
 import static ShoppingCart.Category.DVD;
-import static ShoppingCart.Money.GBP;
+import static ShoppingCart.CurrencyGBP.GBP;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,28 +1,24 @@
 package ShoppingCart;
 
-import static ShoppingCart.Currency.GBP;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Money {
+public class CurrencyGBP {
   private final double value;
-  private final Currency currency;
 
-  public Money(double value, Currency currency) {
+  public CurrencyGBP(double value) {
     this.value = value;
-    this.currency = currency;
   }
 
-  public static Money GBP(double value) {
-    return new Money(value, GBP);
+  public static CurrencyGBP GBP(double value) {
+    return new CurrencyGBP(value);
   }
 
-  public Money multiplyBy(int anotherValue) {
+  public CurrencyGBP multiplyBy(int anotherValue) {
     return GBP(value * anotherValue);
   }
 
-  public Money plus(Money anotherValue) {
+  public CurrencyGBP plus(CurrencyGBP anotherValue) {
     return GBP(value + anotherValue.value);
   }
 
@@ -32,11 +28,10 @@ public class Money {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    Money money = (Money) o;
+    CurrencyGBP currencyGBP = (CurrencyGBP) o;
 
     return new EqualsBuilder()
-        .append(value, money.value)
-        .append(currency, money.currency)
+        .append(value, currencyGBP.value)
         .isEquals();
   }
 
@@ -44,7 +39,6 @@ public class Money {
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
         .append(value)
-        .append(currency)
         .toHashCode();
   }
 }

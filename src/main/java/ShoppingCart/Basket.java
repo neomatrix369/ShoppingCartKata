@@ -1,7 +1,7 @@
 package ShoppingCart;
 
 import static java.util.Collections.unmodifiableList;
-import static ShoppingCart.Money.GBP;
+import static ShoppingCart.CurrencyGBP.GBP;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class Basket {
   private List<BasketItem> items;
   private final LocalDate creationDate;
   private final ProductRepository productRepository;
-  private Money total = GBP(0.0);
+  private CurrencyGBP total = GBP(0.0);
 
   public Basket(
       List<BasketItem> items,
