@@ -1,5 +1,6 @@
 package ShoppingCart;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -56,6 +57,14 @@ public class ShoppingBasketServiceShould {
     assertThat(emptyBasket, is(nullValue()));
     assertThat(nonEmptyBasket, is(notNullValue()));
   }
+  
+  @Test public void
+  contain_the_current_date_as_creation_date_when_a_basket_is_created_for_a_user() {
+    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 3);
+
+    final Basket basket = shoppingBasketService.basketFor(userOne);
+    assertThat(basket.getCreationDate(), is(equalTo(clock.getCurrentDate())));
+  } 
   
   @Test public void
   store_each_users_basket_separately() {

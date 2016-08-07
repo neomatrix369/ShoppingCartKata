@@ -33,6 +33,10 @@ public class Basket {
     updateTotal();
   }
 
+  public LocalDate getCreationDate() {
+    return creationDate;
+  }
+
   private ArrayList<BasketItem> createEmptyBasket() {return new ArrayList<>();}
 
   public Basket addItem(UserID userId, ProductID productId, int quantity) {
