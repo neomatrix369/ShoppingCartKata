@@ -21,7 +21,7 @@ public class ShoppingBasketService {
   public void addItem(UserID userId, ProductID productId, int quantity) {
     Basket basket = basketFor(userId);
     if (basket == null) {
-      basket = new Basket(Basket.emptyItems(), clock.getCurrentDate(), productRepository);
+      basket = new Basket(clock.getCurrentDate(), productRepository);
     }
     basketsRepository.addBasketFor(userId, basket.addItem(userId, productId, quantity));
   }

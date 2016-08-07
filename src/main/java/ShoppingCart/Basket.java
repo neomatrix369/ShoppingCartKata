@@ -26,12 +26,17 @@ public class Basket {
     updateTotal();
   }
 
-  public static List<BasketItem> emptyItems() {
-    return new ArrayList<>();
+  public Basket(LocalDate creationDate, ProductRepository productRepository) {
+    this.items = createEmptyBasket();
+    this.creationDate = creationDate;
+    this.productRepository = productRepository;
+    updateTotal();
   }
 
+  private ArrayList<BasketItem> createEmptyBasket() {return new ArrayList<>();}
+
   public Basket addItem(UserID userId, ProductID productId, int quantity) {
-    List<BasketItem> items = new ArrayList<>();
+    List<BasketItem> items = createEmptyBasket();
     items.addAll(unmodifiableList(this.items));
     items.add(new BasketItem(productId, quantity));
     return new Basket(items, creationDate, productRepository);
