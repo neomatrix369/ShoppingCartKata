@@ -42,10 +42,10 @@ public class Basket {
 
   private ArrayList<BasketItem> emptyItemsList() {return new ArrayList<>();}
 
-  public Basket addItem(ProductID productId, int quantity) {
+  public Basket addItem(BasketItem basketItem) {
     List<BasketItem> items = emptyItemsList();
     items.addAll(unmodifiableList(this.items));
-    items.add(new BasketItem(productId, quantity));
+    items.add(basketItem);
     return new Basket(items, creationDate, productRepository);
   }
 

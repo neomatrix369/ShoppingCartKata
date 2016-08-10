@@ -69,7 +69,7 @@ public class ShoppingBasketServiceShould {
   @Test public void
   contain_total_of_the_respective_items_when_added_to_the_basket_is_created_for_a_user() {
     Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository);
-    expectedBasket = expectedBasket.addItem(DVD_THE_HOBBIT, 3);
+    expectedBasket = expectedBasket.addItem(new BasketItem(DVD_THE_HOBBIT, 3));
 
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 3);
 

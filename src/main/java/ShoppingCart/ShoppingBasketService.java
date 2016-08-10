@@ -23,6 +23,8 @@ public class ShoppingBasketService {
     if (basket == null) {
       basket = new Basket(clock.getCurrentDate(), productRepository);
     }
-    basketsRepository.addBasketFor(userId, basket.addItem(productId, quantity));
+
+    final BasketItem basketItem = new BasketItem(productId, quantity);
+    basketsRepository.addBasketFor(userId, basket.addItem(basketItem));
   }
 }
