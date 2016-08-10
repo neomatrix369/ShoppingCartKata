@@ -26,7 +26,7 @@ public class Basket {
   }
 
   public Basket(LocalDate creationDate, ProductRepository productRepository) {
-    this.items = createEmptyBasket();
+    this.items = emptyItemsList();
     this.creationDate = creationDate;
     this.productRepository = productRepository;
     updateTotal();
@@ -40,10 +40,10 @@ public class Basket {
     return total;
   }
 
-  private ArrayList<BasketItem> createEmptyBasket() {return new ArrayList<>();}
+  private ArrayList<BasketItem> emptyItemsList() {return new ArrayList<>();}
 
   public Basket addItem(ProductID productId, int quantity) {
-    List<BasketItem> items = createEmptyBasket();
+    List<BasketItem> items = emptyItemsList();
     items.addAll(unmodifiableList(this.items));
     items.add(new BasketItem(productId, quantity));
     return new Basket(items, creationDate, productRepository);
