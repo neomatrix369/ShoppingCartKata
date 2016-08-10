@@ -16,8 +16,8 @@ public class BasketItem {
     return productId;
   }
 
-  public CurrencyGBP getTotalFor(Product product) {
-    return product.getTotalFor(quantity);
+  public GBP getTotalFor(Product product) {
+    return product.priceMultiplyBy(quantity);
   }
 
   @Override

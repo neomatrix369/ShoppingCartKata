@@ -3,23 +3,19 @@ package ShoppingCart;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class CurrencyGBP {
+public class GBP {
   private final double value;
 
-  public CurrencyGBP(double value) {
+  public GBP(double value) {
     this.value = value;
   }
 
-  public static CurrencyGBP GBP(double value) {
-    return new CurrencyGBP(value);
+  public GBP multiplyBy(int anotherValue) {
+    return new GBP(value * anotherValue);
   }
 
-  public CurrencyGBP multiplyBy(int anotherValue) {
-    return GBP(value * anotherValue);
-  }
-
-  public CurrencyGBP plus(CurrencyGBP anotherValue) {
-    return GBP(value + anotherValue.value);
+  public GBP plus(GBP anotherValue) {
+    return new GBP(value + anotherValue.value);
   }
 
   @Override
@@ -28,7 +24,7 @@ public class CurrencyGBP {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    CurrencyGBP that = (CurrencyGBP) o;
+    GBP that = (GBP) o;
 
     return new EqualsBuilder()
         .append(value, that.value)
