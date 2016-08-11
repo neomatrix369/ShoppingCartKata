@@ -13,7 +13,7 @@ public class Basket {
   private List<BasketItem> items;
   private final LocalDate creationDate;
   private final ProductRepository productRepository;
-  private GBP total = new GBP(0.0);
+  private GBP total;
 
   public Basket(
       List<BasketItem> items,
@@ -22,14 +22,12 @@ public class Basket {
     this.items = items;
     this.creationDate = creationDate;
     this.productRepository = productRepository;
-    updateTotal();
   }
 
   public Basket(LocalDate creationDate, ProductRepository productRepository) {
     this.items = emptyItemsList();
     this.creationDate = creationDate;
     this.productRepository = productRepository;
-    updateTotal();
   }
 
   public LocalDate getCreationDate() {
@@ -37,6 +35,16 @@ public class Basket {
   }
 
   public GBP getTotal() {
+    if (total == null) {
+      total = new GBP(0.0);
+    }
+
+    items.forEach(
+        basketItem -> {
+          final Product product = productRepository.getProductBy(basketItem.getProductId());
+          total = total.plus(basketItem.getTotalFor(product));
+        }
+    );
     return total;
   }
 
@@ -47,15 +55,6 @@ public class Basket {
     items.addAll(unmodifiableList(this.items));
     items.add(basketItem);
     return new Basket(items, creationDate, productRepository);
-  }
-
-  private void updateTotal() {
-    items.forEach(
-        basketItem -> {
-          final Product product = productRepository.getProductBy(basketItem.getProductId());
-          total = total.plus(basketItem.getTotalFor(product));
-        }
-    );
   }
 
   @Override
