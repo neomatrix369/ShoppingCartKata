@@ -16,6 +16,10 @@ public class Product {
     this.price = price;
   }
 
+  public GBP getPrice() {
+    return price;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -40,9 +44,5 @@ public class Product {
         .append(title)
         .append(price)
         .toHashCode();
-  }
-
-  public GBP getPrice() {
-    return price;
   }
 }
