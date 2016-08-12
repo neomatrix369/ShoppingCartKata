@@ -1,7 +1,5 @@
 package ShoppingCart;
 
-import static java.util.Collections.unmodifiableList;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Basket {
-  private List<BasketItem> items;
+  private List<BasketItem> items = new ArrayList<>();
   private final LocalDate creationDate;
   private final ProductRepository productRepository;
   private GBP total;
@@ -25,7 +23,6 @@ public class Basket {
   }
 
   public Basket(LocalDate creationDate, ProductRepository productRepository) {
-    this.items = emptyItemsList();
     this.creationDate = creationDate;
     this.productRepository = productRepository;
   }
@@ -48,13 +45,11 @@ public class Basket {
     return total;
   }
 
-  private ArrayList<BasketItem> emptyItemsList() {return new ArrayList<>();}
-
   public Basket addItem(BasketItem basketItem) {
-    List<BasketItem> items = emptyItemsList();
-    items.addAll(unmodifiableList(this.items));
-    items.add(basketItem);
-    return new Basket(items, creationDate, productRepository);
+    List<BasketItem> newItems = new ArrayList<>();
+    newItems.addAll(this.items);
+    newItems.add(basketItem);
+    return new Basket(newItems, creationDate, productRepository);
   }
 
   @Override
