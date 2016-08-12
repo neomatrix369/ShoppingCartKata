@@ -16,10 +16,6 @@ public class Product {
     this.price = price;
   }
 
-  public GBP priceMultiplyBy(int quantity) {
-    return price.multiplyBy(quantity);
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -44,5 +40,9 @@ public class Product {
         .append(title)
         .append(price)
         .toHashCode();
+  }
+
+  public GBP getPrice() {
+    return price;
   }
 }

@@ -36,13 +36,13 @@ public class Basket {
       total = new GBP(0.0);
     }
 
-    items.forEach(
-        basketItem -> {
-          final Product product = productRepository.getProductBy(basketItem.getProductId());
-          total = total.plus(basketItem.getTotalFor(product));
-        }
-    );
+    items.forEach(this::getTotalFor);
     return total;
+  }
+
+  private void getTotalFor(BasketItem basketItem) {
+    final Product product = productRepository.getProductBy(basketItem.getProductId());
+    total = total.plus(product.getPrice().multiplyBy(basketItem.getQuantity()));
   }
 
   public Basket addItem(BasketItem basketItem) {
