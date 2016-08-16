@@ -34,25 +34,7 @@ Products available (in-memory repository):
     }    
 ```
 
-Nouns
-  - Shopping basket
-  - Shopping Cart
-  - creation date
-  - item
-  - Books
-  - DVDs
-  - product (productId)
-  - user (userId)
-  - quantity
-  - price
-  - total
-  - content
-  - inventory
-  - in-memory storage
-  - repository
-
-Verbs
-  - add [item to Shopping basket]
-  - create [Shopping basket]
-  - persist [Shopping basket]
-  - check [basket]
+### Scenario 2 - Logging - Hiding state
+- Log items added to shopping cart on the console: 
+    [BASKET CREATED]: Created[<"YYYY-07-12">], User[<ID>]
+    [ITEM ADDED TO SHOPPING CART]: Added[<"YYYY-07-12">], User[<ID>], Product[ID], Quantity[<N>, Price[<£12.00>]
