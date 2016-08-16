@@ -29,4 +29,9 @@ public class ProductID {
         .append(id)
         .toHashCode();
   }
+
+  @Override
+  public String toString() {
+    return "" + id;
+  }
 }
