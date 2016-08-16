@@ -27,8 +27,8 @@ public class ShoppingBasketService {
 
   public void addItem(UserID userId, ProductID productId, int quantity) {
     Basket basket = basketFor(userId);
+    final LocalDate currentDate = clock.getCurrentDate();
     if (basket == null) {
-      final LocalDate currentDate = clock.getCurrentDate();
       basket = new Basket(currentDate, productRepository);
       console.print(
           format("[BASKET CREATED]: Created[\"%s\"], User[%s]", currentDate, userId));
@@ -38,6 +38,6 @@ public class ShoppingBasketService {
     basketsRepository.addBasketFor(userId, basket.addItem(basketItem));
     console.print(
         format("[ITEM ADDED TO SHOPPING CART]: Added[\"%s\"], User[%s], Product[%s], Quantity[%d], Price[%s]",
-            clock.getCurrentDate(), userId, productId, quantity, productRepository.getProductBy(productId).getPrice()));
+            currentDate, userId, productId, quantity, productRepository.getProductBy(productId).getPrice()));
   }
 }
