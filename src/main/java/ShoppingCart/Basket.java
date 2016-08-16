@@ -34,9 +34,9 @@ public class Basket {
   public GBP getTotal() {
     if (total == null) {
       total = new GBP(0.0);
+      items.forEach(this::getTotalFor);
     }
 
-    items.forEach(this::getTotalFor);
     return total;
   }
 
