@@ -36,5 +36,8 @@ public class ShoppingBasketService {
 
     final BasketItem basketItem = new BasketItem(productId, quantity);
     basketsRepository.addBasketFor(userId, basket.addItem(basketItem));
+    console.print(
+        format("[ITEM ADDED TO SHOPPING CART]: Added[\"%s\"], User[%s], Product[%s], Quantity[%d], Price[%s]",
+            clock.getCurrentDate(), userId, productId, quantity, productRepository.getProductBy(productId).getPrice()));
   }
 }
