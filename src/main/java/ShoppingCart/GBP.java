@@ -1,5 +1,7 @@
 package ShoppingCart;
 
+import static java.lang.String.format;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -36,5 +38,10 @@ public class GBP {
     return new HashCodeBuilder(17, 37)
         .append(value)
         .toHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return format("£%.2f", value);
   }
 }
