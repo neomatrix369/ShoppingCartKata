@@ -30,7 +30,8 @@ public class ShoppingBasketService {
     if (basket == null) {
       final LocalDate currentDate = clock.getCurrentDate();
       basket = new Basket(currentDate, productRepository);
-      console.print(format("[BASKET CREATED]: Create[\"%s\"], User[%s]", currentDate, userId));
+      console.print(
+          format("[BASKET CREATED]: Created[\"%s\"], User[%s]", currentDate, userId));
     }
 
     final BasketItem basketItem = new BasketItem(productId, quantity);

@@ -37,8 +37,8 @@ public class ShoppingBasketServiceShould {
     basketRepository = new BasketsRepository();
     productRepository = new ProductRepository();
     shoppingBasketService = new ShoppingBasketService(console, clock, basketRepository, productRepository);
-    userOne = new UserID();
-    userTwo = new UserID();
+    userOne = new UserID(1);
+    userTwo = new UserID(2);
   }
 
   @Test public void
@@ -108,6 +108,7 @@ public class ShoppingBasketServiceShould {
   @Test public void
   log_to_the_console_when_a_basket_is_created() {
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
-    verify(console).print(format("[BASKET CREATED]: Created[\"%s\"], User[%s]", clock.getCurrentDate(), "1")););
+    verify(console).print(
+        format("[BASKET CREATED]: Created[\"%s\"], User[%s]", clock.getCurrentDate(), userOne));
   } 
 }
