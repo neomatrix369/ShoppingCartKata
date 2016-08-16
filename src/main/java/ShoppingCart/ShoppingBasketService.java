@@ -1,14 +1,21 @@
 package ShoppingCart;
 
+import static java.lang.String.format;
+
+import java.time.LocalDate;
+
 public class ShoppingBasketService {
   private final BasketsRepository basketsRepository;
   private final ProductRepository productRepository;
+  private final Console console;
   private final Clock clock;
 
   public ShoppingBasketService(
+      Console console,
       Clock clock,
       BasketsRepository basketsRepository,
       ProductRepository productRepository) {
+    this.console = console;
     this.clock = clock;
     this.basketsRepository = basketsRepository;
     this.productRepository = productRepository;
@@ -21,7 +28,9 @@ public class ShoppingBasketService {
   public void addItem(UserID userId, ProductID productId, int quantity) {
     Basket basket = basketFor(userId);
     if (basket == null) {
-      basket = new Basket(clock.getCurrentDate(), productRepository);
+      final LocalDate currentDate = clock.getCurrentDate();
+      basket = new Basket(currentDate, productRepository);
+      console.print(format("[BASKET CREATED]: Create[\"%s\"], User[%s]", currentDate, userId));
     }
 
     final BasketItem basketItem = new BasketItem(productId, quantity);
