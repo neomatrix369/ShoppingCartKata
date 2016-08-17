@@ -37,4 +37,9 @@ public class GBP {
         .append(value)
         .toHashCode();
   }
+
+  @Override
+  public String toString() {
+    return "£" + value;
+  }
 }
