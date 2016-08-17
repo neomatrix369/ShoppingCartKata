@@ -41,8 +41,8 @@ public class ShoppingBasketServiceShould {
     basketRepository = new BasketsRepository();
     productRepository = new ProductRepository();
     shoppingBasketService = new ShoppingBasketService(clock, basketRepository, productRepository);
-    userOne = new UserID();
-    userTwo = new UserID();
+    userOne = new UserID(1);
+    userTwo = new UserID(2);
   }
 
   @Test public void
