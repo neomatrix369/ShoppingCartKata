@@ -16,7 +16,7 @@ public class BasketShould {
     Clock clock = new Clock();
     Basket basket = new Basket(clock.getCurrentDate(), productRepository);
 
-    basket.addItem(new BasketItem(new ProductID(100001), 2));
+    basket = basket.addItem(new BasketItem(new ProductID(100001), 2));
 
     assertThat(basket.getTotal(), is(equalTo(new GBP(20))));
   }

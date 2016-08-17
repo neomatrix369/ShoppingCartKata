@@ -33,6 +33,13 @@ public class Basket {
     return creationDate;
   }
 
+  public Basket addItem(BasketItem basketItem) {
+    List<BasketItem> newItems = new ArrayList<>();
+    newItems.addAll(this.items);
+    newItems.add(basketItem);
+    return new Basket(newItems, creationDate, productRepository);
+  }
+
   public GBP getTotal() {
     if (total == null) {
       total = new GBP(0.0);
@@ -45,13 +52,6 @@ public class Basket {
   private void calculateTotalFor(BasketItem basketItem) {
     final Product product = productRepository.getProductBy(basketItem.getProductId());
     total = total.plus(product.getPrice().multiplyBy(basketItem.getQuantity()));
-  }
-
-  public Basket addItem(BasketItem basketItem) {
-    List<BasketItem> newItems = new ArrayList<>();
-    newItems.addAll(this.items);
-    newItems.add(basketItem);
-    return new Basket(newItems, creationDate, productRepository);
   }
 
   @Override
