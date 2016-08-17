@@ -1,4 +1,4 @@
-package ShoppingCart;
+package ShoppingCart.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -20,7 +20,6 @@ import ShoppingCart.domain.UserID;
 import ShoppingCart.infrastructure.BasketsRepository;
 import ShoppingCart.infrastructure.Clock;
 import ShoppingCart.infrastructure.ProductRepository;
-import ShoppingCart.service.ShoppingBasketService;
 
 public class ShoppingBasketServiceShould {
 
