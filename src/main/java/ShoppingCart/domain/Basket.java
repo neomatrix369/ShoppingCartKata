@@ -1,4 +1,4 @@
-package ShoppingCart;
+package ShoppingCart.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import ShoppingCart.infrastructure.ProductRepository;
 
 public class Basket {
   private List<BasketItem> items = new ArrayList<>();

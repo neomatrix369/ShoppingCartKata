@@ -3,14 +3,18 @@ package ShoppingCart;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import static ShoppingCart.Category.*;
-import static ShoppingCart.ProductRepository.PRODUCT_ID_100001;
-import static ShoppingCart.ProductRepository.PRODUCT_ID_100002;
-import static ShoppingCart.ProductRepository.PRODUCT_ID_200001;
-import static ShoppingCart.ProductRepository.PRODUCT_ID_200110;
+import static ShoppingCart.domain.Category.*;
+import static ShoppingCart.infrastructure.ProductRepository.PRODUCT_ID_100001;
+import static ShoppingCart.infrastructure.ProductRepository.PRODUCT_ID_100002;
+import static ShoppingCart.infrastructure.ProductRepository.PRODUCT_ID_200001;
+import static ShoppingCart.infrastructure.ProductRepository.PRODUCT_ID_200110;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ShoppingCart.domain.GBP;
+import ShoppingCart.domain.Product;
+import ShoppingCart.infrastructure.ProductRepository;
 
 public class ProductRepositoryShould {
 

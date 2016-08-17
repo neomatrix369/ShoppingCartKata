@@ -13,6 +13,15 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ShoppingCart.domain.Basket;
+import ShoppingCart.domain.BasketItem;
+import ShoppingCart.domain.ProductID;
+import ShoppingCart.domain.UserID;
+import ShoppingCart.infrastructure.BasketsRepository;
+import ShoppingCart.infrastructure.Clock;
+import ShoppingCart.infrastructure.ProductRepository;
+import ShoppingCart.service.ShoppingBasketService;
+
 public class ShoppingBasketServiceShould {
 
   private static final ProductID DVD_THE_HOBBIT = new ProductID(100001);

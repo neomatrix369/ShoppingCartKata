@@ -1,7 +1,10 @@
-package ShoppingCart;
+package ShoppingCart.infrastructure;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import ShoppingCart.domain.Basket;
+import ShoppingCart.domain.UserID;
 
 public class BasketsRepository {
   private final Map<UserID, Basket> baskets = new HashMap<>();

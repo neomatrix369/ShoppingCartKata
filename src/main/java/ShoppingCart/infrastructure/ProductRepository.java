@@ -1,10 +1,14 @@
-package ShoppingCart;
+package ShoppingCart.infrastructure;
 
-import static ShoppingCart.Category.BOOK;
-import static ShoppingCart.Category.DVD;
+import static ShoppingCart.domain.Category.BOOK;
+import static ShoppingCart.domain.Category.DVD;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import ShoppingCart.domain.Product;
+import ShoppingCart.domain.GBP;
+import ShoppingCart.domain.ProductID;
 
 public class ProductRepository {
   public static final ProductID PRODUCT_ID_100001 = new ProductID(100001);

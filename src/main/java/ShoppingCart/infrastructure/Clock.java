@@ -1,4 +1,4 @@
-package ShoppingCart;
+package ShoppingCart.infrastructure;
 
 import static java.time.LocalDate.now;
 

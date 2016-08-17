@@ -1,4 +1,12 @@
-package ShoppingCart;
+package ShoppingCart.service;
+
+import ShoppingCart.domain.Basket;
+import ShoppingCart.domain.BasketItem;
+import ShoppingCart.domain.ProductID;
+import ShoppingCart.domain.UserID;
+import ShoppingCart.infrastructure.BasketsRepository;
+import ShoppingCart.infrastructure.Clock;
+import ShoppingCart.infrastructure.ProductRepository;
 
 public class ShoppingBasketService {
   private final BasketsRepository basketsRepository;
