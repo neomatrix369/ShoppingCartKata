@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import ShoppingCart.domain.Basket;
@@ -14,19 +15,26 @@ import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
 
 public class BasketsRepositoryShould {
+
+  private ProductRepository productRepository;
+  private BasketsRepository basketRepository;
+  private UserID userOne;
+
+  @Before
+  public void initialise() {
+    productRepository = new ProductRepository();
+    basketRepository = new BasketsRepository();
+    userOne = new UserID(1);
+  }
+
   @Test public void
   add_a_basket_for_any_user() {
-    ProductRepository productRepository = new ProductRepository();
-    Clock clock = new Clock();
     List<BasketItem> basketItems = new ArrayList<>();
     basketItems.add(new BasketItem(new ProductID(100001), 2));
-    Basket anyBasket = new Basket(basketItems, clock.getCurrentDate(), productRepository);
-    BasketsRepository basketRepository = new BasketsRepository();
-    UserID userOne = new UserID(1);
+    final Basket anyBasket = new Basket(basketItems, new Clock().getCurrentDate(), productRepository);
 
     basketRepository.addBasketFor(userOne, anyBasket);
-    Basket actualBasket = basketRepository.getBasketFor(userOne);
 
-    assertThat(actualBasket, is(anyBasket));
+    assertThat(basketRepository.getBasketFor(userOne), is(anyBasket));
   } 
 }
