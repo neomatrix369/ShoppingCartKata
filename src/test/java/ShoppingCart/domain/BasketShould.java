@@ -2,6 +2,8 @@ package ShoppingCart.domain;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.core.IsSame.sameInstance;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
@@ -32,4 +34,11 @@ public class BasketShould {
 
     assertThat(basket.getTotal(), is(equalTo(TWENTY_POUNDS)));
   }
+
+  @Test public void
+  return_a_new_instance_of_a_basket_when_an_item_is_added_to_it() {
+    Basket returnedBasket = basket.addItem(new BasketItem(PRODUCT_ID_100001, 3));
+
+    assertThat(basket, is(not(sameInstance(returnedBasket))));
+  } 
 }
