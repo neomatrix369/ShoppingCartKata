@@ -38,3 +38,9 @@ Products available (in-memory repository):
 - Log items added to shopping cart on the console: 
     [BASKET CREATED]: Created[<"YYYY-07-12">], User[<ID>]
     [ITEM ADDED TO SHOPPING CART]: Added[<"YYYY-07-12">], User[<ID>], Product[ID], Quantity[<N>, Price[<£12.00>]
+
+### Scenario 3 - Stock restriction
+- If there are not enough items available in stock for purchase, throw exception
+- When items are added to shopping basket, items should be reserved, that means, 
+if there were 10 items in stock, and one user adds 8 to her shopping cart, we 
+should have only 2 available for being purchase by another user.
