@@ -16,7 +16,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import ShoppingCart.Console;
+import ShoppingCart.infrastructure.Console;
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
 import ShoppingCart.domain.OutOfStockException;

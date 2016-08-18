@@ -6,4 +6,9 @@ public class UserID {
   public UserID(int id) {
     this.id = id;
   }
+
+  @Override
+  public String toString() {
+    return "" + id;
+  }
 }
