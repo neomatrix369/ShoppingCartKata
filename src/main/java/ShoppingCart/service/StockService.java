@@ -23,11 +23,11 @@ public class StockService {
     return items.getOrDefault(productId, 0);
   }
 
-  public void updateStock(ProductID productId, int quantity) {
-    items.put(productId, quantity);
-  }
-
   private void deductStock(ProductID productId, int quantity) {
     updateStock(productId, available(productId) - quantity);
+  }
+
+  public void updateStock(ProductID productId, int quantity) {
+    items.put(productId, quantity);
   }
 }
