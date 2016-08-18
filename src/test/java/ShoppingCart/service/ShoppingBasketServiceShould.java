@@ -36,6 +36,7 @@ public class ShoppingBasketServiceShould {
 
   private UserID userOne;
   private UserID userTwo;
+  private UserID userThree;
   private ProductRepository productRepository;
   private Console console;
   private StockService stockService;
@@ -50,6 +51,7 @@ public class ShoppingBasketServiceShould {
         new ShoppingBasketService(console, clock, new BasketsRepository(), productRepository, stockService);
     userOne = new UserID(1);
     userTwo = new UserID(2);
+    userThree = new UserID(3);
 
     stockService.addStock(DVD_THE_HOBBIT, 5);
     stockService.addStock(DVD_BREAKING_BAD, 10);
@@ -149,6 +151,7 @@ public class ShoppingBasketServiceShould {
   deduct_the_items_from_the_stock_when_added_to_the_basket_and_throw_an_exception_if_quantity_exceeds_stock_count()
       throws OutOfStockException {
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
-    shoppingBasketService.addItem(userTwo, DVD_THE_HOBBIT, 4);
+    shoppingBasketService.addItem(userTwo, DVD_THE_HOBBIT, 3);
+    shoppingBasketService.addItem(userThree, DVD_THE_HOBBIT, 1);
   } 
 }
