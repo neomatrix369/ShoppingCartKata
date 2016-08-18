@@ -1,5 +1,7 @@
 package ShoppingCart.domain;
 
+import static java.lang.String.format;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -40,6 +42,6 @@ public class GBP {
 
   @Override
   public String toString() {
-    return "£" + value;
+    return format("£%.2f", value);
   }
 }

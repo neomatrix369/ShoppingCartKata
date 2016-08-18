@@ -116,6 +116,17 @@ public class ShoppingBasketServiceShould {
   @Test public void
   log_to_the_console_when_a_basket_is_created() {
     shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
-    verify(console).print(format("[BASKET CREATED]: Created[\"%s\"], User[%s]", clock.getCurrentDate(), "1")););
+
+    verify(console).print(
+        format("[BASKET CREATED]: Created[\"%s\"], User[%s]", clock.getCurrentDate(), userOne));
   }
+
+  @Test public void
+  log_to_the_console_when_item_is_added_to_the_basket() {
+    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 3);
+
+    verify(console).print(
+        format("[ITEM ADDED TO SHOPPING CART]: Added[\"%s\"], User[%s], Product[%s], Quantity[%d], Price[%s]",
+            clock.getCurrentDate(), userOne, DVD_THE_HOBBIT, 3, productRepository.getProductBy(DVD_THE_HOBBIT).getPrice()));
+  } 
 }
