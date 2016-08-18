@@ -53,8 +53,8 @@ public class ShoppingBasketServiceShould {
     userTwo = new UserID(2);
     userThree = new UserID(3);
 
-    stockService.addStock(DVD_THE_HOBBIT, 5);
-    stockService.addStock(DVD_BREAKING_BAD, 10);
+    stockService.updateStock(DVD_THE_HOBBIT, 5);
+    stockService.updateStock(DVD_BREAKING_BAD, 10);
   }
 
   @Test public void
@@ -143,7 +143,7 @@ public class ShoppingBasketServiceShould {
   
   @Test (expected = OutOfStockException.class) public void
   throw_an_exception_if_ordered_item_is_not_in_stock() throws OutOfStockException {
-    stockService.addStock(DVD_BREAKING_BAD, 0);
+    stockService.updateStock(DVD_BREAKING_BAD, 0);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 2);
   }
   
