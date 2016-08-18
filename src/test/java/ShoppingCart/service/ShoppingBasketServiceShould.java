@@ -31,7 +31,6 @@ public class ShoppingBasketServiceShould {
   private static final ProductID DVD_BREAKING_BAD = new ProductID(200110);
 
   private Clock clock;
-  private BasketsRepository basketRepository;
   private ShoppingBasketService shoppingBasketService;
 
   private UserID userOne;
@@ -43,9 +42,9 @@ public class ShoppingBasketServiceShould {
   public void initialise() {
     clock = new Clock();
     console = mock(Console.class);
-    basketRepository = new BasketsRepository();
     productRepository = new ProductRepository();
-    shoppingBasketService = new ShoppingBasketService(console, clock, basketRepository, productRepository);
+    shoppingBasketService =
+        new ShoppingBasketService(console, clock, new BasketsRepository(), productRepository);
     userOne = new UserID(1);
     userTwo = new UserID(2);
   }
