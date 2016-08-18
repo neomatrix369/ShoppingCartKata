@@ -1,12 +1,15 @@
 package ShoppingCart.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ShoppingCart.domain.ProductID;
 
 public class StockService {
+
+  private Map<ProductID, Integer> items = new HashMap<>();
+
   public int available(ProductID productId, int quantity) {
-    if (productId.equals(new ProductID(200110)) && quantity == 2) {
-      return 0;
-    }
-    return quantity;
+    return items.getOrDefault(productId, 0);
   }
 }

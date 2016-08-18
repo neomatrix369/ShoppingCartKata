@@ -137,7 +137,7 @@ public class ShoppingBasketServiceShould {
   }
   
   @Test (expected = OutOfStockException.class) public void
-  throw_an_exception_if_there_isnt_enough_items_available_in_stock() throws OutOfStockException {
+  throw_an_exception_if_ordered_item_is_not_in_stock() throws OutOfStockException {
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 2);
   } 
 }
