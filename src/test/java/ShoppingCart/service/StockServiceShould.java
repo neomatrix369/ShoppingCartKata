@@ -7,10 +7,19 @@ import ShoppingCart.domain.ProductID;
 
 public class StockServiceShould {
   @Test (expected = OutOfStockException.class) public void
-  throws_an_exception_when_item_does_not_have_any_stock() throws OutOfStockException {
+  throws_an_exception_when_deducting_quantity_for_an_item_that_does_not_have_any_stock() throws OutOfStockException {
     ProductID productId = new ProductID(100001);
     StockService stockService = new StockService();
 
     stockService.deductStockOrThrowError(productId, 1);
+  }
+
+  @Test (expected = OutOfStockException.class) public void
+  throws_an_exception_when_deducting_quantity_for_an_item_with_not_enough_stock() throws OutOfStockException {
+    ProductID productId = new ProductID(100001);
+    StockService stockService = new StockService();
+    stockService.updateStock(productId, 2);
+
+    stockService.deductStockOrThrowError(productId, 3);
   } 
 }
