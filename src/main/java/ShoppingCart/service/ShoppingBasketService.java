@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import ShoppingCart.Console;
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
+import ShoppingCart.domain.OutOfStockException;
 import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
 import ShoppingCart.infrastructure.BasketsRepository;
@@ -18,23 +19,30 @@ public class ShoppingBasketService {
   private final ProductRepository productRepository;
   private final Console console;
   private final Clock clock;
+  private final StockService stockService;
 
   public ShoppingBasketService(
       Console console,
       Clock clock,
       BasketsRepository basketsRepository,
-      ProductRepository productRepository) {
+      ProductRepository productRepository,
+      StockService stockService) {
     this.console = console;
     this.clock = clock;
     this.basketsRepository = basketsRepository;
     this.productRepository = productRepository;
+    this.stockService = stockService;
   }
 
   public Basket basketFor(UserID userId) {
     return basketsRepository.getBasketFor(userId);
   }
 
-  public void addItem(UserID userId, ProductID productId, int quantity) {
+  public void addItem(UserID userId, ProductID productId, int quantity) throws OutOfStockException {
+    if (stockService.available(productId, quantity) == 0) {
+      throw new OutOfStockException();
+    }
+
     Basket basket = basketFor(userId);
     final LocalDate currentDate = clock.getCurrentDate();
     if (basket == null) {
