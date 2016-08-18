@@ -39,9 +39,11 @@ public class ShoppingBasketService {
   }
 
   public void addItem(UserID userId, ProductID productId, int quantity) throws OutOfStockException {
-    if (stockService.available(productId, quantity) == 0) {
+    if (stockService.available(productId) < quantity) {
       throw new OutOfStockException();
     }
+
+    stockService.deductStock(productId, quantity);
 
     Basket basket = basketFor(userId);
     final LocalDate currentDate = clock.getCurrentDate();

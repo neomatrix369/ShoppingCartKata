@@ -52,7 +52,7 @@ public class ShoppingBasketServiceShould {
     userTwo = new UserID(2);
 
     stockService.addStock(DVD_THE_HOBBIT, 5);
-    stockService.addStock(DVD_BREAKING_BAD, 5);
+    stockService.addStock(DVD_BREAKING_BAD, 10);
   }
 
   @Test public void
@@ -143,5 +143,12 @@ public class ShoppingBasketServiceShould {
   throw_an_exception_if_ordered_item_is_not_in_stock() throws OutOfStockException {
     stockService.addStock(DVD_BREAKING_BAD, 0);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 2);
+  }
+  
+  @Test (expected = OutOfStockException.class) public void
+  deduct_the_items_from_the_stock_when_added_to_the_basket_and_throw_an_exception_if_quantity_exceeds_stock_count()
+      throws OutOfStockException {
+    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    shoppingBasketService.addItem(userTwo, DVD_THE_HOBBIT, 4);
   } 
 }
