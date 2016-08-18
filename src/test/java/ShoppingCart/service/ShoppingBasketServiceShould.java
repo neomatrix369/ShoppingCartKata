@@ -19,6 +19,7 @@ import org.junit.Test;
 import ShoppingCart.Console;
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
+import ShoppingCart.domain.OutOfStockException;
 import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
 import ShoppingCart.infrastructure.BasketsRepository;
@@ -128,5 +129,10 @@ public class ShoppingBasketServiceShould {
     verify(console).print(
         format("[ITEM ADDED TO SHOPPING CART]: Added[\"%s\"], User[%s], Product[%s], Quantity[%d], Price[%s]",
             clock.getCurrentDate(), userOne, DVD_THE_HOBBIT, 3, productRepository.getProductBy(DVD_THE_HOBBIT).getPrice()));
+  }
+  
+  @Test (expected = OutOfStockException.class) public void
+  throw_an_exception_if_there_isnt_enough_items_available_in_stock() {
+    shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 2);
   } 
 }
