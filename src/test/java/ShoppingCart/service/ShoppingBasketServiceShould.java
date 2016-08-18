@@ -50,6 +50,9 @@ public class ShoppingBasketServiceShould {
         new ShoppingBasketService(console, clock, new BasketsRepository(), productRepository, stockService);
     userOne = new UserID(1);
     userTwo = new UserID(2);
+
+    stockService.addStock(DVD_THE_HOBBIT, 5);
+    stockService.addStock(DVD_BREAKING_BAD, 5);
   }
 
   @Test public void
@@ -138,6 +141,7 @@ public class ShoppingBasketServiceShould {
   
   @Test (expected = OutOfStockException.class) public void
   throw_an_exception_if_ordered_item_is_not_in_stock() throws OutOfStockException {
+    stockService.addStock(DVD_BREAKING_BAD, 0);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 2);
   } 
 }

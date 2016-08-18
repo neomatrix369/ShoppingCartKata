@@ -12,4 +12,8 @@ public class StockService {
   public int available(ProductID productId, int quantity) {
     return items.getOrDefault(productId, 0);
   }
+
+  public void addStock(ProductID productId, int quantity) {
+    items.put(productId, quantity);
+  }
 }
