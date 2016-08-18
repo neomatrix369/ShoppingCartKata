@@ -16,6 +16,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ShoppingCart.Console;
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
 import ShoppingCart.domain.ProductID;
@@ -44,7 +45,7 @@ public class ShoppingBasketServiceShould {
     console = mock(Console.class);
     basketRepository = new BasketsRepository();
     productRepository = new ProductRepository();
-    shoppingBasketService = new ShoppingBasketService(clock, basketRepository, productRepository);
+    shoppingBasketService = new ShoppingBasketService(console, clock, basketRepository, productRepository);
     userOne = new UserID(1);
     userTwo = new UserID(2);
   }
