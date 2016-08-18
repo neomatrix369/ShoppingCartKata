@@ -5,6 +5,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
@@ -33,10 +36,12 @@ public class ShoppingBasketServiceShould {
   private UserID userOne;
   private UserID userTwo;
   private ProductRepository productRepository;
+  private Console console;
 
   @Before
   public void initialise() {
     clock = new Clock();
+    console = mock(Console.class);
     basketRepository = new BasketsRepository();
     productRepository = new ProductRepository();
     shoppingBasketService = new ShoppingBasketService(clock, basketRepository, productRepository);
@@ -106,5 +111,11 @@ public class ShoppingBasketServiceShould {
     List<BasketItem> itemsUserOne = new ArrayList<>();
     itemsUserOne.addAll(asList(basketItem));
     return itemsUserOne;
+  }
+
+  @Test public void
+  log_to_the_console_when_a_basket_is_created() {
+    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    verify(console).print(format("[BASKET CREATED]: Created[\"%s\"], User[%s]", clock.getCurrentDate(), "1")););
   }
 }
