@@ -44,3 +44,9 @@ Products available (in-memory repository):
 - When items are added to shopping basket, items should be reserved, that means, 
 if there were 10 items in stock, and one user adds 8 to her shopping cart, we 
 should have only 2 available for being purchase by another user.
+
+### Scenario 4 - Multi-buy discount
+- Shopping cart should contain multi-buy discount: 
+   - 10% discount if more than 3 books are in the cart
+   - 20% discount if at least one book and a video are in the cart
+- In case both discounts on shopping basket apply, the biggest discount is selected.
