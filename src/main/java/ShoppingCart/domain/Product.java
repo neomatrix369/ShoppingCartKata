@@ -20,6 +20,10 @@ public class Product {
     return price;
   }
 
+  public boolean isA(Category category) {
+    return this.category.equals(category);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

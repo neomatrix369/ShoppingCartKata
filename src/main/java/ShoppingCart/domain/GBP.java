@@ -20,6 +20,11 @@ public class GBP {
     return new GBP(value + anotherValue.value);
   }
 
+  public GBP reduceBy(double percent) {
+    final double reducedValue = value - (value / percent);
+    return new GBP(reducedValue);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

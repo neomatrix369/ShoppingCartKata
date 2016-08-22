@@ -1,5 +1,7 @@
 package ShoppingCart.domain;
 
+import static ShoppingCart.domain.Category.BOOK;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import ShoppingCart.infrastructure.ProductRepository;
 
 public class Basket {
+  private static final double TEN_PERCENT = 10.00;
+
   private List<BasketItem> items = new ArrayList<>();
   private final LocalDate creationDate;
   private final ProductRepository productRepository;
@@ -44,13 +48,24 @@ public class Basket {
     if (total == null) {
       total = new GBP(0.0);
       items.forEach(this::calculateTotalFor);
+
+      long booksCount = items.stream()
+          .filter(item -> getProductFor(item).isA(BOOK))
+          .mapToInt(BasketItem::getQuantity)
+          .sum();
+
+      if (booksCount > 3) {
+        total = total.reduceBy(TEN_PERCENT);
+      }
     }
 
     return total;
   }
 
+  private Product getProductFor(BasketItem item) {return productRepository.getProductBy(item.getProductId());}
+
   private void calculateTotalFor(BasketItem basketItem) {
-    final Product product = productRepository.getProductBy(basketItem.getProductId());
+    final Product product = getProductFor(basketItem);
     total = total.plus(product.getPrice().multiplyBy(basketItem.getQuantity()));
   }
 
