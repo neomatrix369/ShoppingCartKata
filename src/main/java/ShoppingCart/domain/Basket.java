@@ -49,17 +49,21 @@ public class Basket {
       total = new GBP(0.0);
       items.forEach(this::calculateTotalFor);
 
-      long booksCount = items.stream()
-          .filter(item -> getProductFor(item).isA(BOOK))
-          .mapToInt(BasketItem::getQuantity)
-          .sum();
-
-      if (booksCount > 3) {
-        total = total.reduceBy(TEN_PERCENT);
-      }
+      applyTenPercentDiscountForMoreThan3Books();
     }
 
     return total;
+  }
+
+  private void applyTenPercentDiscountForMoreThan3Books() {
+    long booksCount = items.stream()
+        .filter(item -> getProductFor(item).isA(BOOK))
+        .mapToInt(BasketItem::getQuantity)
+        .sum();
+
+    if (booksCount > 3) {
+      total = total.reduceBy(TEN_PERCENT);
+    }
   }
 
   private Product getProductFor(BasketItem item) {return productRepository.getProductBy(item.getProductId());}
