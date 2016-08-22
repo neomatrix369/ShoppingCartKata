@@ -21,7 +21,7 @@ public class GBP {
   }
 
   public GBP reduceBy(double percent) {
-    final double reducedValue = value - (value / percent);
+    final double reducedValue = value - ((percent / 100) * value);
     return new GBP(reducedValue);
   }
 

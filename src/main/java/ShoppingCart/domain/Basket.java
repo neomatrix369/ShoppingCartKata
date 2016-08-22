@@ -1,6 +1,7 @@
 package ShoppingCart.domain;
 
 import static ShoppingCart.domain.Category.BOOK;
+import static ShoppingCart.domain.Category.DVD;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import ShoppingCart.infrastructure.ProductRepository;
 
 public class Basket {
   private static final double TEN_PERCENT = 10.00;
+  private static final double TWENTY_PERCENT = 20.00;
 
   private List<BasketItem> items = new ArrayList<>();
   private final LocalDate creationDate;
@@ -50,6 +52,7 @@ public class Basket {
       items.forEach(this::calculateTotalFor);
 
       applyTenPercentDiscountForMoreThan3Books();
+      applyTwentyPercentDiscountOneBookAndOneDVD();
     }
 
     return total;
@@ -63,6 +66,22 @@ public class Basket {
 
     if (booksCount > 3) {
       total = total.reduceBy(TEN_PERCENT);
+    }
+  }
+
+  private void applyTwentyPercentDiscountOneBookAndOneDVD() {
+    long booksCount = items.stream()
+        .filter(item -> getProductFor(item).isA(BOOK))
+        .mapToInt(BasketItem::getQuantity)
+        .sum();
+
+    long dvdsCount = items.stream()
+        .filter(item -> getProductFor(item).isA(DVD))
+        .mapToInt(BasketItem::getQuantity)
+        .sum();
+
+    if ((booksCount >= 1) && (dvdsCount >= 1)) {
+      total = total.reduceBy(TWENTY_PERCENT);
     }
   }
 
