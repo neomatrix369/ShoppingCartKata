@@ -51,14 +51,14 @@ public class Basket {
       total = new GBP(0.0);
       items.forEach(this::calculateTotalFor);
 
-      applyTenPercentDiscountForMoreThan3Books();
+      applyTenPercentDiscountForMoreThanThreeBooks();
       applyTwentyPercentDiscountOneBookAndOneDVD();
     }
 
     return total;
   }
 
-  private void applyTenPercentDiscountForMoreThan3Books() {
+  private void applyTenPercentDiscountForMoreThanThreeBooks() {
     if (countForProductCategory(BOOK) > 3) {
       total = total.reduceBy(TEN_PERCENT);
     }
