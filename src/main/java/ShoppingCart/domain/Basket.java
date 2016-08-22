@@ -15,8 +15,8 @@ public class Basket {
   private List<BasketItem> items = new ArrayList<>();
   private final LocalDate creationDate;
   private final ProductRepository productRepository;
+  private final DiscountService discountService;
   private GBP total;
-  private DiscountService discountService;
 
   public Basket(
       List<BasketItem> items,
