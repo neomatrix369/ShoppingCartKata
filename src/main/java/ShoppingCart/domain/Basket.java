@@ -59,30 +59,23 @@ public class Basket {
   }
 
   private void applyTenPercentDiscountForMoreThan3Books() {
-    long booksCount = items.stream()
-        .filter(item -> getProductFor(item).isA(BOOK))
-        .mapToInt(BasketItem::getQuantity)
-        .sum();
-
-    if (booksCount > 3) {
+    if (countForProductCategory(BOOK) > 3) {
       total = total.reduceBy(TEN_PERCENT);
     }
   }
 
   private void applyTwentyPercentDiscountOneBookAndOneDVD() {
-    long booksCount = items.stream()
-        .filter(item -> getProductFor(item).isA(BOOK))
-        .mapToInt(BasketItem::getQuantity)
-        .sum();
-
-    long dvdsCount = items.stream()
-        .filter(item -> getProductFor(item).isA(DVD))
-        .mapToInt(BasketItem::getQuantity)
-        .sum();
-
-    if ((booksCount >= 1) && (dvdsCount >= 1)) {
+    if ((countForProductCategory(BOOK) >= 1) &&
+        (countForProductCategory(DVD) >= 1)) {
       total = total.reduceBy(TWENTY_PERCENT);
     }
+  }
+
+  private long countForProductCategory(Category category) {
+    return items.stream()
+          .filter(item -> getProductFor(item).isA(category))
+          .mapToInt(BasketItem::getQuantity)
+          .sum();
   }
 
   private Product getProductFor(BasketItem item) {return productRepository.getProductBy(item.getProductId());}
