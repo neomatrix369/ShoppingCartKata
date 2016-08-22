@@ -54,12 +54,7 @@ public class Basket {
       total = new GBP(0.0);
       items.forEach(this::calculateTotalFor);
 
-      double discount = discountService.applyTwentyPercentDiscountOneBookAndOneDVD(items);
-      if (discount == 0) {
-        discount = discountService.applyTenPercentDiscountForMoreThanThreeBooks(items);
-      }
-
-      total = total.reduceBy(discount);
+      total = total.reduceBy(discountService.getDiscount(items));
     }
 
     return total;
