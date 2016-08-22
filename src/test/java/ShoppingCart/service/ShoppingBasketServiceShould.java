@@ -166,6 +166,15 @@ public class ShoppingBasketServiceShould {
   }
 
   @Test public void
+  calculate_a_total_with_no_discount_2_books_are_in_the_cart()
+      throws OutOfStockException {
+    shoppingBasketService.addItem(userTwo, BOOK_THE_HOBBIT, 2);
+
+    Basket basket = shoppingBasketService.basketFor(userTwo);
+    assertThat(basket.getTotal(), is(new GBP(10.00)));
+  }
+
+  @Test public void
   calculate_a_total_less_20_percent_if_1_book_and_1_video_are_in_the_cart()
       throws OutOfStockException {
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 1);
