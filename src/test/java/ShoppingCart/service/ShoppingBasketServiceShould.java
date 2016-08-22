@@ -195,4 +195,14 @@ public class ShoppingBasketServiceShould {
     Basket basket = shoppingBasketService.basketFor(userOne);
     assertThat(basket.getTotal(), is(new GBP(14.00)));
   }
+
+  @Test public void
+  calculate_a_total_with_20_percent_discount_if_4_books_and_2_videos_are_in_the_cart()
+      throws OutOfStockException {
+    shoppingBasketService.addItem(userTwo, BOOK_THE_HOBBIT, 4);
+    shoppingBasketService.addItem(userTwo, DVD_BREAKING_BAD, 2);
+
+    Basket basket = shoppingBasketService.basketFor(userTwo);
+    assertThat(basket.getTotal(), is(new GBP(27.20)));
+  } 
 }

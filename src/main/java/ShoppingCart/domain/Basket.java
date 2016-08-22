@@ -54,7 +54,7 @@ public class Basket {
       total = new GBP(0.0);
       items.forEach(this::calculateTotalFor);
 
-      total = total.reduceBy(discountService.getDiscount(items));
+      total = total.reduceBy(discountService.getDiscountFor(items));
     }
 
     return total;

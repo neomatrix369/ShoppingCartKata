@@ -44,7 +44,7 @@ public class DiscountService {
 
   private Product getProductFor(BasketItem item) {return productRepository.getProductBy(item.getProductId());}
 
-  public double getDiscount(List<BasketItem> items) {
+  public double getDiscountFor(List<BasketItem> items) {
     double discount = applyTwentyPercentDiscountOneBookAndOneDVD(items);
     if (discount == 0.0) {
       discount = applyTenPercentDiscountForMoreThanThreeBooks(items);
