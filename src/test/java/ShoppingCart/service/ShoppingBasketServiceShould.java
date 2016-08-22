@@ -41,6 +41,7 @@ public class ShoppingBasketServiceShould {
   private ProductRepository productRepository;
   private Console console;
   private StockService stockService;
+  private DiscountService discountService;
 
   @Before
   public void initialise() {
@@ -48,8 +49,9 @@ public class ShoppingBasketServiceShould {
     console = mock(Console.class);
     productRepository = new ProductRepository();
     stockService = new StockService();
+    discountService = new DiscountService(productRepository);
     shoppingBasketService = new ShoppingBasketService(
-            console, clock, new BasketsRepository(), productRepository, stockService);
+            console, clock, new BasketsRepository(), productRepository, stockService, discountService);
     userOne = new UserID(1);
     userTwo = new UserID(2);
     userThree = new UserID(3);
@@ -63,7 +65,7 @@ public class ShoppingBasketServiceShould {
       throws OutOfStockException {
     List<BasketItem> items =
         createBasketItems(new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
-    Basket expectedBasket = new Basket(items, clock.getCurrentDate(), productRepository);
+    Basket expectedBasket = new Basket(items, clock.getCurrentDate(), productRepository, discountService);
 
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
@@ -93,7 +95,7 @@ public class ShoppingBasketServiceShould {
   @Test public void
   contain_total_of_the_respective_items_when_added_to_the_basket_is_created_for_a_user()
       throws OutOfStockException {
-    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository);
+    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository, discountService);
     expectedBasket = expectedBasket.addItem(new BasketItem(BOOK_THE_HOBBIT, 3));
 
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 3);
@@ -106,10 +108,10 @@ public class ShoppingBasketServiceShould {
   store_each_users_basket_separately() throws OutOfStockException {
     Basket expectedBasketForUserOne =
         new Basket(createBasketItems(new BasketItem(BOOK_THE_HOBBIT, 2),
-            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository);
+            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository, discountService);
     Basket expectedBasketForUserTwo =
         new Basket(createBasketItems(
-            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository);
+            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository, discountService);
 
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);

@@ -1,8 +1,5 @@
 package ShoppingCart.domain;
 
-import static ShoppingCart.domain.Category.BOOK;
-import static ShoppingCart.domain.Category.DVD;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,28 +8,34 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import ShoppingCart.infrastructure.ProductRepository;
+import ShoppingCart.service.DiscountService;
 
 public class Basket {
-  private static final double TEN_PERCENT = 10.00;
-  private static final double TWENTY_PERCENT = 20.00;
 
   private List<BasketItem> items = new ArrayList<>();
   private final LocalDate creationDate;
   private final ProductRepository productRepository;
   private GBP total;
+  private DiscountService discountService;
 
   public Basket(
       List<BasketItem> items,
       LocalDate creationDate,
-      ProductRepository productRepository) {
+      ProductRepository productRepository,
+      DiscountService discountService) {
     this.items = items;
     this.creationDate = creationDate;
     this.productRepository = productRepository;
+    this.discountService = discountService;
   }
 
-  public Basket(LocalDate creationDate, ProductRepository productRepository) {
+  public Basket(
+      LocalDate creationDate,
+      ProductRepository productRepository,
+      DiscountService discountService) {
     this.creationDate = creationDate;
     this.productRepository = productRepository;
+    this.discountService = discountService;
   }
 
   public LocalDate getCreationDate() {
@@ -43,7 +46,7 @@ public class Basket {
     List<BasketItem> newItems = new ArrayList<>();
     newItems.addAll(this.items);
     newItems.add(basketItem);
-    return new Basket(newItems, creationDate, productRepository);
+    return new Basket(newItems, creationDate, productRepository, discountService);
   }
 
   public GBP getTotal() {
@@ -51,31 +54,15 @@ public class Basket {
       total = new GBP(0.0);
       items.forEach(this::calculateTotalFor);
 
-      applyTenPercentDiscountForMoreThanThreeBooks();
-      applyTwentyPercentDiscountOneBookAndOneDVD();
+      double discount = discountService.applyTwentyPercentDiscountOneBookAndOneDVD(items);
+      if (discount == 0) {
+        discount = discountService.applyTenPercentDiscountForMoreThanThreeBooks(items);
+      }
+
+      total = total.reduceBy(discount);
     }
 
     return total;
-  }
-
-  private void applyTenPercentDiscountForMoreThanThreeBooks() {
-    if (countForProductCategory(BOOK) > 3) {
-      total = total.reduceBy(TEN_PERCENT);
-    }
-  }
-
-  private void applyTwentyPercentDiscountOneBookAndOneDVD() {
-    if ((countForProductCategory(BOOK) >= 1) &&
-        (countForProductCategory(DVD) >= 1)) {
-      total = total.reduceBy(TWENTY_PERCENT);
-    }
-  }
-
-  private long countForProductCategory(Category category) {
-    return items.stream()
-          .filter(item -> getProductFor(item).isA(category))
-          .mapToInt(BasketItem::getQuantity)
-          .sum();
   }
 
   private Product getProductFor(BasketItem item) {return productRepository.getProductBy(item.getProductId());}

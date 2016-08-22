@@ -20,18 +20,21 @@ public class ShoppingBasketService {
   private final Console console;
   private final Clock clock;
   private final StockService stockService;
+  private final DiscountService discountService;
 
   public ShoppingBasketService(
       Console console,
       Clock clock,
       BasketsRepository basketsRepository,
       ProductRepository productRepository,
-      StockService stockService) {
+      StockService stockService,
+      DiscountService discountService) {
     this.console = console;
     this.clock = clock;
     this.basketsRepository = basketsRepository;
     this.productRepository = productRepository;
     this.stockService = stockService;
+    this.discountService = discountService;
   }
 
   public Basket basketFor(UserID userId) {
@@ -44,7 +47,7 @@ public class ShoppingBasketService {
     Basket basket = basketFor(userId);
     final LocalDate currentDate = clock.getCurrentDate();
     if (basket == null) {
-      basket = new Basket(currentDate, productRepository);
+      basket = new Basket(currentDate, productRepository, discountService);
       console.print(
           format("[BASKET CREATED]: Created[\"%s\"], User[%s]", currentDate, userId));
     }

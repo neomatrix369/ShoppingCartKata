@@ -13,16 +13,19 @@ import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
 import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
+import ShoppingCart.service.DiscountService;
 
 public class BasketsRepositoryShould {
 
   private ProductRepository productRepository;
   private BasketsRepository basketRepository;
   private UserID userOne;
+  private DiscountService discountService;
 
   @Before
   public void initialise() {
     productRepository = new ProductRepository();
+    discountService = new DiscountService(productRepository);
     basketRepository = new BasketsRepository();
     userOne = new UserID(1);
   }
@@ -31,7 +34,7 @@ public class BasketsRepositoryShould {
   add_a_basket_for_any_user() {
     List<BasketItem> basketItems = new ArrayList<>();
     basketItems.add(new BasketItem(new ProductID(100001), 2));
-    final Basket anyBasket = new Basket(basketItems, new Clock().getCurrentDate(), productRepository);
+    final Basket anyBasket = new Basket(basketItems, new Clock().getCurrentDate(), productRepository, discountService);
 
     basketRepository.addBasketFor(userOne, anyBasket);
 

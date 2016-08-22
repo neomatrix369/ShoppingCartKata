@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import ShoppingCart.infrastructure.Clock;
 import ShoppingCart.infrastructure.ProductRepository;
+import ShoppingCart.service.DiscountService;
 
 public class BasketShould {
 
@@ -20,12 +21,14 @@ public class BasketShould {
   private ProductRepository productRepository;
   private Clock clock;
   private Basket basket;
+  private DiscountService discountService;
 
   @Before
   public void initialise() {
     productRepository = new ProductRepository();
     clock = new Clock();
-    basket = new Basket(clock.getCurrentDate(), productRepository);
+    discountService = new DiscountService(productRepository);
+    basket = new Basket(clock.getCurrentDate(), productRepository, discountService);
   }
 
   @Test public void
