@@ -41,4 +41,13 @@ public class BasketShould {
 
     assertThat(basket, is(not(sameInstance(returnedBasket))));
   } 
+  
+//  @Test public void
+//  be_immutable_and_not_expose_data_for_modification() {
+//    List<BasketItem> items
+//        = new ArrayList<>();
+//    Basket basket = new Basket(items, clock.getCurrentDate(), productRepository);
+//    items.add(new BasketItem(new ProductID(1),1));
+//
+//  }
 }

@@ -17,13 +17,13 @@ import ShoppingCart.domain.UserID;
 public class BasketsRepositoryShould {
 
   private ProductRepository productRepository;
-  private BasketsRepository basketRepository;
+  private BasketRepository basketRepository;
   private UserID userOne;
 
   @Before
   public void initialise() {
     productRepository = new ProductRepository();
-    basketRepository = new BasketsRepository();
+    basketRepository = new BasketRepository();
     userOne = new UserID(1);
   }
 
