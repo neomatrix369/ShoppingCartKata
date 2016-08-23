@@ -140,13 +140,15 @@ public class ShoppingBasketServiceShould {
         format("[ITEM ADDED TO SHOPPING CART]: Added[\"%s\"], User[%s], Product[%s], Quantity[%d], Price[%s]",
             clock.getCurrentDate(), userOne, DVD_THE_HOBBIT, 3, productRepository.getProductBy(DVD_THE_HOBBIT).getPrice()));
   }
-  
+
+  //TODO Check for flow by adding mocks to stockService
   @Test (expected = OutOfStockException.class) public void
   throw_an_exception_if_ordered_item_is_not_in_stock() throws OutOfStockException {
     stockService.updateStock(DVD_BREAKING_BAD, 0);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 2);
   }
-  
+
+  //TODO Check for flow by adding mocks to stockService
   @Test (expected = OutOfStockException.class) public void
   deduct_the_items_from_the_stock_when_added_to_the_basket_and_throw_an_exception_if_quantity_exceeds_stock_count()
       throws OutOfStockException {
