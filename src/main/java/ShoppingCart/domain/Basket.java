@@ -1,5 +1,7 @@
 package ShoppingCart.domain;
 
+import static java.lang.String.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,5 +78,11 @@ public class Basket {
         .append(creationDate)
         .append(total)
         .toHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return format("Basket{items=%s, creationDate=%s, productRepository=%s, total=%s}",
+        items, creationDate, productRepository, total);
   }
 }
