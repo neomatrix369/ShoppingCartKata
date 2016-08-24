@@ -1,5 +1,8 @@
 package ShoppingCart.domain;
 
+import static java.lang.String.*;
+import static java.util.Arrays.asList;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +22,14 @@ public class Basket {
   private GBP total;
 
   public Basket(
-      List<BasketItem> items,
       LocalDate creationDate,
       ProductRepository productRepository,
-      DiscountService discountService) {
-    this.items = items;
+      DiscountService discountService,
+      BasketItem... items) {
     this.creationDate = creationDate;
     this.productRepository = productRepository;
     this.discountService = discountService;
+    this.items = asList(items);
   }
 
   public Basket(
@@ -46,7 +49,7 @@ public class Basket {
     List<BasketItem> newItems = new ArrayList<>();
     newItems.addAll(this.items);
     newItems.add(basketItem);
-    return new Basket(newItems, creationDate, productRepository, discountService);
+    return new Basket(creationDate, productRepository, discountService, newItems.toArray(new BasketItem[newItems.size()]));
   }
 
   public GBP getTotal() {
@@ -76,9 +79,9 @@ public class Basket {
     Basket basket = (Basket) o;
 
     return new EqualsBuilder()
-        .append(total, basket.total)
         .append(items, basket.items)
         .append(creationDate, basket.creationDate)
+        .append(total, basket.total)
         .isEquals();
   }
 
@@ -89,5 +92,10 @@ public class Basket {
         .append(creationDate)
         .append(total)
         .toHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return format("Basket{items=%s, creationDate=%s, total=%s}", items, creationDate, total);
   }
 }

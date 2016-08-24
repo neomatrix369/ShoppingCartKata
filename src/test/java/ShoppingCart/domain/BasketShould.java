@@ -6,6 +6,9 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.IsSame.sameInstance;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,4 +47,18 @@ public class BasketShould {
 
     assertThat(basket, is(not(sameInstance(returnedBasket))));
   } 
+  
+  @Test public void
+  be_immutable_and_not_expose_data_for_modification() {
+    List<BasketItem> items = new ArrayList<>();
+    Basket actualBasket = new Basket(clock.getCurrentDate(), productRepository);
+    items.add(new BasketItem(PRODUCT_ID_100001, 1));
+    List<BasketItem> unmutatedItems = new ArrayList<>();
+    unmutatedItems.add(new BasketItem(PRODUCT_ID_100001, 1));
+    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository);
+
+    items.clear();
+
+    assertThat(actualBasket, is(expectedBasket));
+  }
 }
