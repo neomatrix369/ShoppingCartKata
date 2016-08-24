@@ -8,10 +8,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,16 +18,17 @@ import ShoppingCart.domain.BasketItem;
 import ShoppingCart.domain.OutOfStockException;
 import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
-import ShoppingCart.infrastructure.BasketsRepository;
+import ShoppingCart.infrastructure.BasketRepository;
 import ShoppingCart.infrastructure.Clock;
 import ShoppingCart.infrastructure.ProductRepository;
 
 public class ShoppingBasketServiceShould {
 
-  private static final ProductID DVD_THE_HOBBIT = new ProductID(100001);
+  private static final ProductID BOOK_THE_HOBBIT = new ProductID(100001);
   private static final ProductID DVD_BREAKING_BAD = new ProductID(200110);
 
   private Clock clock;
+  private BasketRepository basketRepository;
   private ShoppingBasketService shoppingBasketService;
 
   private UserID userOne;
@@ -45,35 +42,38 @@ public class ShoppingBasketServiceShould {
   public void initialise() {
     clock = new Clock();
     console = mock(Console.class);
+    basketRepository = new BasketRepository();
     productRepository = new ProductRepository();
     stockService = new StockService();
     shoppingBasketService =
-        new ShoppingBasketService(console, clock, new BasketsRepository(), productRepository, stockService);
+        new ShoppingBasketService(console, clock, basketRepository, productRepository, stockService);
     userOne = new UserID(1);
     userTwo = new UserID(2);
     userThree = new UserID(3);
 
-    stockService.updateStock(DVD_THE_HOBBIT, 5);
+    stockService.updateStock(BOOK_THE_HOBBIT, 5);
     stockService.updateStock(DVD_BREAKING_BAD, 10);
   }
 
   @Test public void
-  contain_the_items_that_are_added_to_the_basket_when_it_is_checked_out()
+  contain_the_items_that_are_added_to_the_basket_for_a_specific_user()
       throws OutOfStockException {
-    List<BasketItem> items =
-        createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
-    Basket expectedBasket = new Basket(items, clock.getCurrentDate(), productRepository);
+    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository,
+        new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
 
-    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    final Basket basketBeforeAddingItems = shoppingBasketService.basketFor(userOne);
+    shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
+    final Basket basketAfterAddingItems = shoppingBasketService.basketFor(userOne);
 
-    assertThat(shoppingBasketService.basketFor(userOne), is(expectedBasket));
+    assertThat(basketBeforeAddingItems, is(nullValue()));
+    assertThat(basketAfterAddingItems, is(expectedBasket));
   }
   
   @Test public void
   create_a_basket_when_the_first_product_is_added_to_it() throws OutOfStockException {
     final Basket emptyBasket = shoppingBasketService.basketFor(userOne);
-    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
     final Basket nonEmptyBasket = shoppingBasketService.basketFor(userOne);
 
     assertThat(emptyBasket, is(nullValue()));
@@ -83,9 +83,10 @@ public class ShoppingBasketServiceShould {
   @Test public void
   contain_the_current_date_as_creation_date_when_a_basket_is_created_for_a_user()
       throws OutOfStockException {
-    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 3);
+    shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 3);
 
     final Basket basket = shoppingBasketService.basketFor(userOne);
+
     assertThat(basket.getCreationDate(), is(equalTo(clock.getCurrentDate())));
   } 
   
@@ -93,9 +94,11 @@ public class ShoppingBasketServiceShould {
   contain_total_of_the_respective_items_when_added_to_the_basket_is_created_for_a_user()
       throws OutOfStockException {
     Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository);
-    expectedBasket = expectedBasket.addItem(new BasketItem(DVD_THE_HOBBIT, 3));
+    expectedBasket = expectedBasket.addItem(new BasketItem(BOOK_THE_HOBBIT, 3))
+        .addItem(new BasketItem(DVD_BREAKING_BAD, 2));
 
-    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 3);
+    shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 3);
+    shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 2);
 
     Basket basket = shoppingBasketService.basketFor(userOne);
     assertThat(basket.getTotal(), is(equalTo(expectedBasket.getTotal())));
@@ -104,13 +107,12 @@ public class ShoppingBasketServiceShould {
   @Test public void
   store_each_users_basket_separately() throws OutOfStockException {
     Basket expectedBasketForUserOne =
-        new Basket(createBasketItems(new BasketItem(DVD_THE_HOBBIT, 2),
-            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository);
+        new Basket(clock.getCurrentDate(), productRepository,
+            new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
     Basket expectedBasketForUserTwo =
-        new Basket(createBasketItems(
-            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository);
+        new Basket(clock.getCurrentDate(), productRepository, new BasketItem(DVD_BREAKING_BAD, 5));
 
-    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
     shoppingBasketService.addItem(userTwo, DVD_BREAKING_BAD, 5);
 
@@ -118,15 +120,9 @@ public class ShoppingBasketServiceShould {
     assertThat(shoppingBasketService.basketFor(userTwo), is(expectedBasketForUserTwo));
   }
 
-  private List<BasketItem> createBasketItems(BasketItem... basketItem) {
-    List<BasketItem> itemsUserOne = new ArrayList<>();
-    itemsUserOne.addAll(asList(basketItem));
-    return itemsUserOne;
-  }
-
   @Test public void
   log_to_the_console_when_a_basket_is_created() throws OutOfStockException {
-    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
+    shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
 
     verify(console).print(
         format("[BASKET CREATED]: Created[\"%s\"], User[%s]", clock.getCurrentDate(), userOne));
@@ -134,11 +130,11 @@ public class ShoppingBasketServiceShould {
 
   @Test public void
   log_to_the_console_when_item_is_added_to_the_basket() throws OutOfStockException {
-    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 3);
+    shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 3);
 
     verify(console).print(
         format("[ITEM ADDED TO SHOPPING CART]: Added[\"%s\"], User[%s], Product[%s], Quantity[%d], Price[%s]",
-            clock.getCurrentDate(), userOne, DVD_THE_HOBBIT, 3, productRepository.getProductBy(DVD_THE_HOBBIT).getPrice()));
+            clock.getCurrentDate(), userOne, BOOK_THE_HOBBIT, 3, productRepository.getProductBy(BOOK_THE_HOBBIT).getPrice()));
   }
 
   //TODO Check for flow by adding mocks to stockService
@@ -152,8 +148,8 @@ public class ShoppingBasketServiceShould {
   @Test (expected = OutOfStockException.class) public void
   deduct_the_items_from_the_stock_when_added_to_the_basket_and_throw_an_exception_if_quantity_exceeds_stock_count()
       throws OutOfStockException {
-    shoppingBasketService.addItem(userOne, DVD_THE_HOBBIT, 2);
-    shoppingBasketService.addItem(userTwo, DVD_THE_HOBBIT, 3);
-    shoppingBasketService.addItem(userThree, DVD_THE_HOBBIT, 1);
-  } 
+    shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
+    shoppingBasketService.addItem(userTwo, BOOK_THE_HOBBIT, 3);
+    shoppingBasketService.addItem(userThree, BOOK_THE_HOBBIT, 1);
+  }
 }
