@@ -6,7 +6,7 @@ import java.util.Map;
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.UserID;
 
-public class BasketsRepository {
+public class BasketRepository {
   private final Map<UserID, Basket> baskets = new HashMap<>();
 
   public Basket getBasketFor(UserID userId) {

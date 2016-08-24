@@ -9,12 +9,12 @@ import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
 import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
-import ShoppingCart.infrastructure.BasketsRepository;
+import ShoppingCart.infrastructure.BasketRepository;
 import ShoppingCart.infrastructure.Clock;
 import ShoppingCart.infrastructure.ProductRepository;
 
 public class ShoppingBasketService {
-  private final BasketsRepository basketsRepository;
+  private final BasketRepository basketRepository;
   private final ProductRepository productRepository;
   private final Console console;
   private final Clock clock;
@@ -22,16 +22,16 @@ public class ShoppingBasketService {
   public ShoppingBasketService(
       Console console,
       Clock clock,
-      BasketsRepository basketsRepository,
+      BasketRepository basketRepository,
       ProductRepository productRepository) {
     this.console = console;
     this.clock = clock;
-    this.basketsRepository = basketsRepository;
+    this.basketRepository = basketRepository;
     this.productRepository = productRepository;
   }
 
   public Basket basketFor(UserID userId) {
-    return basketsRepository.getBasketFor(userId);
+    return basketRepository.getBasketFor(userId);
   }
 
   public void addItem(UserID userId, ProductID productId, int quantity) {
@@ -44,9 +44,10 @@ public class ShoppingBasketService {
     }
 
     final BasketItem basketItem = new BasketItem(productId, quantity);
-    basketsRepository.addBasketFor(userId, basket.addItem(basketItem));
+    basketRepository.addBasketFor(userId, basket.addItem(basketItem));
     console.print(
         format("[ITEM ADDED TO SHOPPING CART]: Added[\"%s\"], User[%s], Product[%s], Quantity[%d], Price[%s]",
             currentDate, userId, productId, quantity, productRepository.getProductBy(productId).getPrice()));
+
   }
 }
