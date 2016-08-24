@@ -48,11 +48,11 @@ public class BasketShould {
   @Test public void
   be_immutable_and_not_expose_data_for_modification() {
     List<BasketItem> items = new ArrayList<>();
-    Basket actualBasket = new Basket(items, clock.getCurrentDate(), productRepository);
+    Basket actualBasket = new Basket(clock.getCurrentDate(), productRepository);
     items.add(new BasketItem(PRODUCT_ID_100001, 1));
     List<BasketItem> unmutatedItems = new ArrayList<>();
     unmutatedItems.add(new BasketItem(PRODUCT_ID_100001, 1));
-    Basket expectedBasket = new Basket(unmutatedItems, clock.getCurrentDate(), productRepository);
+    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository);
 
     items.clear();
 

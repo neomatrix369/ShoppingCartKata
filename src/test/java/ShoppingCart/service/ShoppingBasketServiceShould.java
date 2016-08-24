@@ -5,10 +5,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static java.util.Arrays.asList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,9 +42,8 @@ public class ShoppingBasketServiceShould {
 
   @Test public void
   contain_the_items_that_are_added_to_the_basket_for_a_specific_user() {
-    List<BasketItem> items =
-        createBasketItems(new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
-    Basket expectedBasket = new Basket(items, clock.getCurrentDate(), productRepository);
+    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository,
+        new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
 
     final Basket basketBeforeAddingItems = shoppingBasketService.basketFor(userOne);
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
@@ -94,11 +89,10 @@ public class ShoppingBasketServiceShould {
   @Test public void
   store_each_users_basket_separately() {
     Basket expectedBasketForUserOne =
-        new Basket(createBasketItems(new BasketItem(BOOK_THE_HOBBIT, 2),
-            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository);
+        new Basket(clock.getCurrentDate(), productRepository,
+            new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
     Basket expectedBasketForUserTwo =
-        new Basket(createBasketItems(
-            new BasketItem(DVD_BREAKING_BAD, 5)), clock.getCurrentDate(), productRepository);
+        new Basket(clock.getCurrentDate(), productRepository, new BasketItem(DVD_BREAKING_BAD, 5));
 
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
@@ -106,11 +100,5 @@ public class ShoppingBasketServiceShould {
 
     assertThat(shoppingBasketService.basketFor(userOne), is(expectedBasketForUserOne));
     assertThat(shoppingBasketService.basketFor(userTwo), is(expectedBasketForUserTwo));
-  }
-
-  private List<BasketItem> createBasketItems(BasketItem... basketItem) {
-    List<BasketItem> itemsUserOne = new ArrayList<>();
-    itemsUserOne.addAll(asList(basketItem));
-    return itemsUserOne;
   }
 }

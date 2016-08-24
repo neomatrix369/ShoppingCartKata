@@ -3,9 +3,6 @@ package ShoppingCart.infrastructure;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,9 +26,9 @@ public class BasketsRepositoryShould {
 
   @Test public void
   add_a_basket_for_any_user() {
-    List<BasketItem> basketItems = new ArrayList<>();
-    basketItems.add(new BasketItem(new ProductID(100001), 2));
-    final Basket anyBasket = new Basket(basketItems, new Clock().getCurrentDate(), productRepository);
+    final Basket anyBasket = new Basket(new Clock().getCurrentDate(),
+            productRepository,
+            new BasketItem(new ProductID(100001), 2));
 
     basketRepository.addBasketFor(userOne, anyBasket);
 
