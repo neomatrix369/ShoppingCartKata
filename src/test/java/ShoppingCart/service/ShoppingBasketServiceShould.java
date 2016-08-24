@@ -61,8 +61,8 @@ public class ShoppingBasketServiceShould {
   @Test public void
   contain_the_items_that_are_added_to_the_basket_for_a_specific_user()
       throws OutOfStockException {
-    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository,
-        discountService, new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
+    Basket expectedBasket =
+        createBasket(new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
 
     final Basket basketBeforeAddingItems = shoppingBasketService.basketFor(userOne);
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
@@ -96,7 +96,7 @@ public class ShoppingBasketServiceShould {
   @Test public void
   contain_total_of_the_respective_items_when_added_to_the_basket_is_created_for_a_user()
       throws OutOfStockException {
-    Basket expectedBasket = new Basket(clock.getCurrentDate(), productRepository, discountService);
+    Basket expectedBasket = createBasket();
     expectedBasket = expectedBasket.addItem(new BasketItem(BOOK_THE_HOBBIT, 3));
 
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 3);
@@ -108,13 +108,9 @@ public class ShoppingBasketServiceShould {
   @Test public void
   store_each_users_basket_separately() throws OutOfStockException {
     Basket expectedBasketForUserOne =
-        new Basket(clock.getCurrentDate(),
-            productRepository, discountService,
-            new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
+        createBasket(new BasketItem(BOOK_THE_HOBBIT, 2), new BasketItem(DVD_BREAKING_BAD, 5));
     Basket expectedBasketForUserTwo =
-        new Basket(clock.getCurrentDate(),
-            productRepository, discountService,
-            new BasketItem(DVD_BREAKING_BAD, 5));
+        createBasket(new BasketItem(DVD_BREAKING_BAD, 5));
 
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 5);
@@ -122,6 +118,12 @@ public class ShoppingBasketServiceShould {
 
     assertThat(shoppingBasketService.basketFor(userOne), is(expectedBasketForUserOne));
     assertThat(shoppingBasketService.basketFor(userTwo), is(expectedBasketForUserTwo));
+  }
+
+  private Basket createBasket(BasketItem... basketItems) {
+    return new Basket(clock.getCurrentDate(),
+        productRepository, discountService,
+        basketItems);
   }
 
   @Test public void
