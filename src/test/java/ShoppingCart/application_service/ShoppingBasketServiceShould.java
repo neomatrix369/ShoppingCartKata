@@ -1,4 +1,4 @@
-package ShoppingCart.service;
+package ShoppingCart.application_service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
