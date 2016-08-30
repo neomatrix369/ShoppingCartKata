@@ -1,4 +1,4 @@
-package ShoppingCart.service;
+package ShoppingCart.domain_service;
 
 import ShoppingCart.domain.OutOfStockException;
 import ShoppingCart.domain.ProductID;

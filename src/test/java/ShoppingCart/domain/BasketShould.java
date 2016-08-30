@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import ShoppingCart.infrastructure.Clock;
 import ShoppingCart.infrastructure.ProductRepository;
-import ShoppingCart.service.DiscountService;
+import ShoppingCart.domain_service.DiscountService;
 
 public class BasketShould {
 

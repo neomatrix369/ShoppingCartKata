@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import ShoppingCart.infrastructure.ProductRepository;
-import ShoppingCart.service.DiscountService;
+import ShoppingCart.domain_service.DiscountService;
 
 public class Basket {
 

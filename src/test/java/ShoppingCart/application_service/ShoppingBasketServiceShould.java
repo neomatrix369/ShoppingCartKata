@@ -19,6 +19,8 @@ import ShoppingCart.domain.GBP;
 import ShoppingCart.domain.OutOfStockException;
 import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
+import ShoppingCart.domain_service.DiscountService;
+import ShoppingCart.domain_service.StockService;
 import ShoppingCart.infrastructure.BasketRepository;
 import ShoppingCart.infrastructure.Clock;
 import ShoppingCart.infrastructure.Console;

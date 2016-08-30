@@ -1,4 +1,4 @@
-package ShoppingCart.service;
+package ShoppingCart.domain_service;
 
 import static ShoppingCart.domain.Category.BOOK;
 import static ShoppingCart.domain.Category.DVD;

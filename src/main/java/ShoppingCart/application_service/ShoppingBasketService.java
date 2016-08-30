@@ -4,6 +4,8 @@ import static java.lang.String.format;
 
 import java.time.LocalDate;
 
+import ShoppingCart.domain_service.DiscountService;
+import ShoppingCart.domain_service.StockService;
 import ShoppingCart.infrastructure.Console;
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;

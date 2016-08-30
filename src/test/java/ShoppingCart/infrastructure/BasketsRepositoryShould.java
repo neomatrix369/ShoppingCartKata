@@ -10,7 +10,7 @@ import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
 import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
-import ShoppingCart.service.DiscountService;
+import ShoppingCart.domain_service.DiscountService;
 
 public class BasketsRepositoryShould {
 
