@@ -4,7 +4,7 @@ import static java.lang.String.format;
 
 import java.time.LocalDate;
 
-import ShoppingCart.Console;
+import ShoppingCart.infrastructure.Console;
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
 import ShoppingCart.domain.ProductID;
