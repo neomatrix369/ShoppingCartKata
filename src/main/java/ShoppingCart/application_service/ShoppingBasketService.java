@@ -1,4 +1,4 @@
-package ShoppingCart.service;
+package ShoppingCart.application_service;
 
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
