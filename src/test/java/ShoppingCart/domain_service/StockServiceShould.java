@@ -1,4 +1,4 @@
-package ShoppingCart.service;
+package ShoppingCart.domain_service;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

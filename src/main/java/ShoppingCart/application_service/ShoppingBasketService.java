@@ -4,14 +4,15 @@ import static java.lang.String.format;
 
 import java.time.LocalDate;
 
-import ShoppingCart.infrastructure.Console;
 import ShoppingCart.domain.Basket;
 import ShoppingCart.domain.BasketItem;
 import ShoppingCart.domain.OutOfStockException;
 import ShoppingCart.domain.ProductID;
 import ShoppingCart.domain.UserID;
+import ShoppingCart.domain_service.StockService;
 import ShoppingCart.infrastructure.BasketRepository;
 import ShoppingCart.infrastructure.Clock;
+import ShoppingCart.infrastructure.Console;
 import ShoppingCart.infrastructure.ProductRepository;
 
 public class ShoppingBasketService {
