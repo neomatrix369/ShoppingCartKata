@@ -1,15 +1,16 @@
 package ShoppingCart.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import ShoppingCart.domain.OutOfStockException;
 import ShoppingCart.domain.ProductID;
+import ShoppingCart.infrastructure.StockRepository;
 
 public class StockService {
 
-  // TODO - might be better to put this in a StockRepository
-  private Map<ProductID, Integer> items = new HashMap<>();
+  private StockRepository stockRepository;
+
+  public StockService(StockRepository stockRepository) {
+    this.stockRepository = stockRepository;
+  }
 
   public void reserveStock(ProductID productId, int quantity)
       throws OutOfStockException {
@@ -17,15 +18,10 @@ public class StockService {
       throw new OutOfStockException();
     }
 
-    updateStock(productId, available(productId) - quantity);
+    stockRepository.put(productId, available(productId) - quantity);
   }
 
   private int available(ProductID productId) {
-    return items.getOrDefault(productId, 0);
-  }
-
-  // TODO not required, when mocking reservedStock - it is a test helper
-  public void updateStock(ProductID productId, int quantity) {
-    items.put(productId, quantity);
+    return stockRepository.get(productId);
   }
 }
