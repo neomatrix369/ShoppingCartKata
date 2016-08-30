@@ -5,9 +5,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static java.lang.String.format;
 
 import org.junit.Before;
@@ -22,6 +22,7 @@ import ShoppingCart.infrastructure.BasketRepository;
 import ShoppingCart.infrastructure.Clock;
 import ShoppingCart.infrastructure.Console;
 import ShoppingCart.infrastructure.ProductRepository;
+import ShoppingCart.infrastructure.StockRepository;
 
 public class ShoppingBasketServiceShould {
 
@@ -38,6 +39,7 @@ public class ShoppingBasketServiceShould {
   private ProductRepository productRepository;
   private Console console;
   private StockService stockService;
+  private StockRepository stockRepository;
 
   @Before
   public void initialise() {
@@ -45,9 +47,12 @@ public class ShoppingBasketServiceShould {
     console = mock(Console.class);
     basketRepository = new BasketRepository();
     productRepository = new ProductRepository();
+    stockRepository = mock(StockRepository.class);
     stockService = mock(StockService.class);
+
     shoppingBasketService =
         new ShoppingBasketService(console, clock, basketRepository, productRepository, stockService);
+
     userOne = new UserID(1);
     userTwo = new UserID(2);
     userThree = new UserID(3);
@@ -137,7 +142,8 @@ public class ShoppingBasketServiceShould {
 
   @Test (expected = OutOfStockException.class) public void
   throw_an_exception_if_ordered_item_is_not_in_stock() throws OutOfStockException {
-    doThrow(OutOfStockException.class).when(stockService).reserveStock(DVD_BREAKING_BAD, 2);
+    setupStockServiceWithNoMocks();
+    when(stockRepository.get(DVD_BREAKING_BAD)).thenReturn(0);
 
     shoppingBasketService.addItem(userOne, DVD_BREAKING_BAD, 2);
   }
@@ -145,10 +151,18 @@ public class ShoppingBasketServiceShould {
   @Test (expected = OutOfStockException.class) public void
   deduct_the_items_from_the_stock_when_added_to_the_basket_and_throw_an_exception_if_quantity_exceeds_stock_count()
       throws OutOfStockException {
-    doThrow(OutOfStockException.class).when(stockService).reserveStock(BOOK_THE_HOBBIT, 1);
+    setupStockServiceWithNoMocks();
+    when(stockRepository.get(BOOK_THE_HOBBIT)).thenReturn(5, 3, 0);
 
     shoppingBasketService.addItem(userOne, BOOK_THE_HOBBIT, 2);
     shoppingBasketService.addItem(userTwo, BOOK_THE_HOBBIT, 3);
     shoppingBasketService.addItem(userThree, BOOK_THE_HOBBIT, 1);
+  }
+
+  private void setupStockServiceWithNoMocks() {
+    stockService = new StockService(stockRepository);
+
+    shoppingBasketService =
+        new ShoppingBasketService(console, clock, basketRepository, productRepository, stockService);
   }
 }
