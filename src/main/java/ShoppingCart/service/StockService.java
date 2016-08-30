@@ -18,14 +18,10 @@ public class StockService {
       throw new OutOfStockException();
     }
 
-    updateStock(productId, available(productId) - quantity);
+    stockRepository.put(productId, available(productId) - quantity);
   }
 
   private int available(ProductID productId) {
     return stockRepository.get(productId);
-  }
-
-  protected void updateStock(ProductID productId, int quantity) {
-    stockRepository.put(productId, quantity);
   }
 }
